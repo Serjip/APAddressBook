@@ -10,8 +10,9 @@
 #import "ContactTableViewCell.h"
 #import "APContact.h"
 #import "APAddressBook.h"
+#import <AddressBookUI/AddressBookUI.h>
 
-@interface ListViewController ()
+@interface ListViewController () <ABNewPersonViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activity;
 @end
 
@@ -53,6 +54,15 @@
     [self loadContacts];
 }
 
+- (IBAction)actionAddConctact:(id)sender
+{
+    ABNewPersonViewController *vc = [[ABNewPersonViewController alloc] init];
+    vc.newPersonViewDelegate = self;
+    
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nc animated:YES completion:nil];
+}
+
 #pragma mark - table view data source implementation
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -65,6 +75,26 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    APContact *contact = [self.memoryStorage tableItemAtIndexPath:indexPath];
+    
+    CFErrorRef *errorRef = NULL;
+    ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, errorRef);
+    ABRecordRef recordRef = ABAddressBookGetPersonWithRecordID(addressBookRef, contact.recordID.intValue);
+    
+    ABPersonViewController *vc = [[ABPersonViewController alloc] init];
+    
+    vc.addressBook = addressBookRef;
+    vc.displayedPerson = recordRef;
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - ABNewPersonViewControllerDelegate
+
+- (void)newPersonViewController:(ABNewPersonViewController *)newPersonView didCompleteWithNewPerson:(ABRecordRef)person
+{
+    [newPersonView dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - private
