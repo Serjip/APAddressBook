@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		527782AF1A2F2664007B35B5 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 527782AE1A2F2664007B35B5 /* AddressBookUI.framework */; };
 		A495CDF35F214F43AFF3AAF9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6084C3D31A504C79BEA08B84 /* libPods.a */; };
 		FA66281C187FE9EF00667C81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA66281B187FE9EF00667C81 /* Foundation.framework */; };
 		FA66281E187FE9EF00667C81 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA66281D187FE9EF00667C81 /* CoreGraphics.framework */; };
@@ -29,7 +28,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		527782AE1A2F2664007B35B5 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		6084C3D31A504C79BEA08B84 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6496F61BD33753BB99E0AB3D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8DB33874E6CEAEB5C3CAD23B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -69,7 +67,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				527782AF1A2F2664007B35B5 /* AddressBookUI.framework in Frameworks */,
 				FA662862187FFCA700667C81 /* AddressBook.framework in Frameworks */,
 				FA66281E187FE9EF00667C81 /* CoreGraphics.framework in Frameworks */,
 				FA662820187FE9EF00667C81 /* UIKit.framework in Frameworks */,
@@ -112,7 +109,6 @@
 		FA66281A187FE9EF00667C81 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				527782AE1A2F2664007B35B5 /* AddressBookUI.framework */,
 				FA662861187FFCA700667C81 /* AddressBook.framework */,
 				FA66281B187FE9EF00667C81 /* Foundation.framework */,
 				FA66281D187FE9EF00667C81 /* CoreGraphics.framework */,
