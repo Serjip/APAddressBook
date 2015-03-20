@@ -104,6 +104,165 @@
     return self;
 }
 
+- (BOOL)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask
+{
+    if (! fieldMask)
+    {
+        return NO;
+    }
+    
+    if (fieldMask & APContactFieldFirstName)
+    {
+        if (! [[self stringProperty:kABPersonFirstNameProperty fromRecord:recordRef] isEqualToString:self.firstName])
+        {
+            return NO;
+        }
+    }
+    
+    if (fieldMask & APContactFieldMiddleName)
+    {
+        if (! [[self stringProperty:kABPersonMiddleNameProperty fromRecord:recordRef] isEqualToString:self.middleName])
+        {
+            return NO;
+        }
+    }
+    
+    if (fieldMask & APContactFieldLastName)
+    {
+        if (! [[self stringProperty:kABPersonLastNameProperty fromRecord:recordRef] isEqualToString:self.lastName])
+        {
+            return NO;
+        }
+    }
+    
+    if (fieldMask & APContactFieldCompositeName)
+    {
+        if (! [[self compositeNameFromRecord:recordRef] isEqualToString:self.compositeName])
+        {
+            return NO;
+        }
+    }
+    
+    if (fieldMask & APContactFieldCompany)
+    {
+        if (! [[self stringProperty:kABPersonOrganizationProperty fromRecord:recordRef] isEqualToString:self.company])
+        {
+            return NO;
+        }
+    }
+    
+    if (fieldMask & APContactFieldPhones)
+    {
+        NSMutableArray *phones = [NSMutableArray arrayWithArray:self.phones];
+        NSArray *phoneToMerge = [self arrayProperty:kABPersonPhoneProperty fromRecord:recordRef];
+        
+        for (NSString *p in phoneToMerge)
+        {
+            if ([phones containsObject:p])
+            {
+                continue;
+            }
+            
+            [phones addObject:p];
+        }
+        
+        _phones = phones;
+    }
+    
+    if (fieldMask & APContactFieldPhonesWithLabels)
+    {
+        NSMutableArray *phoneWithLabels = [NSMutableArray arrayWithArray:self.phonesWithLabels];
+        NSArray *phoneToMerge = [self arrayOfPhonesWithLabelsFromRecord:recordRef];
+        
+        for (APPhoneWithLabel *pwl in phoneToMerge)
+        {
+            if ([self.phonesWithLabels containsObject:pwl])
+            {
+                continue;
+            }
+            [phoneWithLabels addObject:pwl];
+        }
+    }
+    
+    if (fieldMask & APContactFieldEmails)
+    {
+        NSMutableArray *emails = [NSMutableArray arrayWithArray:self.emails];
+        NSArray *emailsToMerge = [self arrayProperty:kABPersonEmailProperty fromRecord:recordRef];
+        
+        for (NSString *email in emailsToMerge)
+        {
+            if ([self.emails containsObject:email])
+            {
+                continue;
+            }
+            
+            [emails addObject:email];
+        }
+        
+        _emails = emails;
+    }
+
+    if (fieldMask & APContactFieldPhoto)
+    {
+        if (! self.photo)
+        {
+            _photo = [self imagePropertyFullSize:YES fromRecord:recordRef];
+        }
+    }
+    
+    if (fieldMask & APContactFieldThumbnail)
+    {
+        if (! self.thumbnail)
+        {
+            _thumbnail = [self imagePropertyFullSize:NO fromRecord:recordRef];
+        }
+    }
+    
+    if (fieldMask & APContactFieldAddresses)
+    {
+        NSMutableArray *addresses = [NSMutableArray arrayWithArray:self.addresses];
+        NSArray *array = [self arrayProperty:kABPersonAddressProperty fromRecord:recordRef];
+        for (NSDictionary *dictionary in array)
+        {
+            APAddress *address = [[APAddress alloc] initWithAddressDictionary:dictionary];
+            
+            if ([self.addresses containsObject:addresses])
+            {
+                continue;
+            }
+            
+            [addresses addObject:address];
+        }
+        _addresses = addresses.copy;
+    }
+
+    if (fieldMask & APContactFieldSocialProfiles)
+    {
+        NSMutableArray *profiles = [NSMutableArray arrayWithArray:self.socialProfiles];
+        NSArray *array = [self arrayProperty:kABPersonSocialProfileProperty fromRecord:recordRef];
+        for (NSDictionary *dictionary in array)
+        {
+            APSocialProfile *profile = [[APSocialProfile alloc] initWithSocialDictionary:dictionary];
+            
+            if ([self.socialProfiles containsObject:profile])
+            {
+                continue;
+            }
+            
+            [profiles addObject:profile];
+        }
+        
+        _socialProfiles = profiles;
+    }
+
+//    if (fieldMask & APContactFieldNote)
+//    {
+//        _note = [self stringProperty:kABPersonNoteProperty fromRecord:recordRef];
+//    }
+
+    return YES;
+}
+
 #pragma mark - private
 
 - (NSString *)stringProperty:(ABPropertyID)property fromRecord:(ABRecordRef)recordRef

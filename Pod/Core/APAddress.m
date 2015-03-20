@@ -26,4 +26,47 @@
     return self;
 }
 
+- (BOOL)isEqualToAddress:(APAddress *)address
+{
+    if (! [self.street isEqualToString:address.street])
+    {
+        return NO;
+    }
+    if (! [self.city isEqualToString:address.city])
+    {
+        return NO;
+    }
+    if (! [self.state isEqualToString:address.state])
+    {
+        return NO;
+    }
+    if (! [self.zip isEqualToString:address.zip])
+    {
+        return NO;
+    }
+    if (! [self.country isEqualToString:address.country])
+    {
+        return NO;
+    }
+    if (! [self.countryCode isEqualToString:address.countryCode])
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object
+{
+    if (self == object) {
+        return YES;
+    }
+    
+    if (![object isKindOfClass:[APAddress class]]) {
+        return NO;
+    }
+    
+    return [self isEqualToAddress:object];
+}
+
 @end

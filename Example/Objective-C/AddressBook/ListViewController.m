@@ -105,6 +105,7 @@
     [self.activity startAnimating];
     __weak __typeof(self) weakSelf = self;
     addressBook.fieldsMask = APContactFieldAll;
+    addressBook.mergeFieldsMask = APContactFieldAll;
     addressBook.sortDescriptors = @[
     [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES],
     [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES]];

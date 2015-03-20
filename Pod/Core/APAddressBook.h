@@ -14,6 +14,7 @@
 @interface APAddressBook : NSObject
 
 @property (nonatomic, assign) APContactField fieldsMask;
+@property (nonatomic, assign) APContactField mergeFieldsMask;
 @property (nonatomic, copy) APContactFilterBlock filterBlock;
 @property (nonatomic, strong) NSArray *sortDescriptors;
 

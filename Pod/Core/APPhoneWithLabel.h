@@ -13,6 +13,6 @@
 @property (nonatomic, readonly) NSString *phone;
 @property (nonatomic, readonly) NSString *label;
 
-- (id)initWithPhone:(NSString *)phone label:(NSString *)label;
+- (instancetype)initWithPhone:(NSString *)phone label:(NSString *)label;
 
 @end

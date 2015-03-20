@@ -83,6 +83,7 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
                  completion:(void (^)(NSArray *contacts, NSError *error))completionBlock
 {
     APContactField fieldMask = self.fieldsMask;
+    APContactField mergeFieldMask = self.mergeFieldsMask;
     NSArray *descriptors = self.sortDescriptors;
     APContactFilterBlock filterBlock = self.filterBlock;
 
@@ -96,16 +97,53 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
             {
                 CFArrayRef peopleArrayRef = ABAddressBookCopyArrayOfAllPeople(self.addressBook);
                 NSUInteger contactCount = (NSUInteger)CFArrayGetCount(peopleArrayRef);
-                NSMutableArray *contacts = [[NSMutableArray alloc] init];
+                NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:contactCount];
+                NSMutableSet *linkedContactsIDs = [NSMutableSet set];
+                
                 for (NSUInteger i = 0; i < contactCount; i++)
                 {
                     ABRecordRef recordRef = CFArrayGetValueAtIndex(peopleArrayRef, i);
-                    APContact *contact = [[APContact alloc] initWithRecordRef:recordRef
-                                                                    fieldMask:fieldMask];
+                    
+                    //
+                    // Checking already added contacts
+                    //
+                    if ([linkedContactsIDs containsObject:@(ABRecordGetRecordID(recordRef))])
+                    {
+                        continue;
+                    }
+                    
+                    APContact *contact = [[APContact alloc] initWithRecordRef:recordRef fieldMask:fieldMask];
                     if (!filterBlock || filterBlock(contact))
                     {
                         [contacts addObject:contact];
                     }
+                    
+                    CFArrayRef linkedPeopleArrayRef = ABPersonCopyArrayOfAllLinkedPeople(recordRef);
+                    NSUInteger linkedCount = (NSUInteger)CFArrayGetCount(linkedPeopleArrayRef);
+                    
+                    if (linkedCount > 1)
+                    {
+                        // Merge linked contact info
+                        //
+                        for (NSUInteger j = 0; j < linkedCount; j++)
+                        {
+                            ABRecordRef linkedRecordRef = CFArrayGetValueAtIndex(linkedPeopleArrayRef, j);
+                            
+                            // Don't merge the same contact
+                            //
+                            if (linkedRecordRef == recordRef)
+                            {
+                                continue;
+                            }
+                            
+                            if ([contact mergeLinkedRecordRef:linkedRecordRef fieldMask:mergeFieldMask])
+                            {
+                                [linkedContactsIDs addObject:@(ABRecordGetRecordID(linkedRecordRef))];
+                            }
+                        }
+                    }
+                    
+                    CFRelease(linkedPeopleArrayRef);
                 }
                 [contacts sortUsingDescriptors:descriptors];
                 array = contacts.copy;

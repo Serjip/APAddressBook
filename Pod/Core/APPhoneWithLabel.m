@@ -10,7 +10,8 @@
 
 @implementation APPhoneWithLabel
 
-- (id)initWithPhone:(NSString *)phone label:(NSString *)label {
+- (instancetype)initWithPhone:(NSString *)phone label:(NSString *)label
+{
     self = [super init];
     if(self)
     {
@@ -18,6 +19,24 @@
         _label = label;
     }
     return self;
+}
+
+- (BOOL)isEqualToPhoneWithLabel:(APPhoneWithLabel *)phoneWithLabel
+{
+    return ([phoneWithLabel.phone isEqualToString:self.phone] && [phoneWithLabel.label isEqualToString:self.label]);
+}
+
+- (BOOL)isEqual:(id)object
+{
+    if (self == object) {
+        return YES;
+    }
+    
+    if (![object isKindOfClass:[APPhoneWithLabel class]]) {
+        return NO;
+    }
+    
+    return [self isEqualToPhoneWithLabel:object];
 }
 
 @end

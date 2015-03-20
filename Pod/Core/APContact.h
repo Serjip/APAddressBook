@@ -32,5 +32,6 @@
 @property (nonatomic, readonly) NSString *note;
 
 - (id)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
+- (BOOL)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
 
 @end

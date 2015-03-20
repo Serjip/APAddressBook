@@ -38,6 +38,44 @@
     return self;
 }
 
+- (BOOL)isEqualToSocialProfile:(APSocialProfile *)socialProfile
+{
+    if (self.socialNetwork != socialProfile.socialNetwork)
+    {
+        return NO;
+    }
+    
+    if (! [self.username isEqualToString:socialProfile.username])
+    {
+        return NO;
+    }
+    
+    if (! [self.userIdentifier isEqualToString:socialProfile.userIdentifier])
+    {
+        return NO;
+    }
+    
+    if (! [self.url.absoluteString isEqualToString:socialProfile.url.absoluteString])
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object
+{
+    if (self == object) {
+        return YES;
+    }
+    
+    if (![object isKindOfClass:[APSocialProfile class]]) {
+        return NO;
+    }
+    
+    return [self isEqualToSocialProfile:object];
+}
+
 #pragma mark - private
 
 - (APSocialNetworkType)socialNetworkTypeFromString:(NSString *)string
