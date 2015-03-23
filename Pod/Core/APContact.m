@@ -255,10 +255,13 @@
         _socialProfiles = profiles;
     }
 
-//    if (fieldMask & APContactFieldNote)
-//    {
-//        _note = [self stringProperty:kABPersonNoteProperty fromRecord:recordRef];
-//    }
+    if (fieldMask & APContactFieldNote)
+    {
+        if (! self.note)
+        {
+            _note = [self stringProperty:kABPersonNoteProperty fromRecord:recordRef];
+        }
+    }
 
     return YES;
 }
