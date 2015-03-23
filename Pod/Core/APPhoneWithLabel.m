@@ -39,4 +39,9 @@
     return [self isEqualToPhoneWithLabel:object];
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@ (%@)", self.phone, self.label];
+}
+
 @end

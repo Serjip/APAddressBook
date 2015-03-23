@@ -31,7 +31,7 @@
 @property (nonatomic, readonly) NSArray *socialProfiles;
 @property (nonatomic, readonly) NSString *note;
 
-- (id)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
-- (BOOL)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
+- (instancetype)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
+- (void)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
 
 @end

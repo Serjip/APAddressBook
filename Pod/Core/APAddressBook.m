@@ -136,8 +136,9 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
                                 continue;
                             }
                             
-                            if ([contact mergeLinkedRecordRef:linkedRecordRef fieldMask:mergeFieldMask])
+                            if (mergeFieldMask)
                             {
+                                [contact mergeLinkedRecordRef:linkedRecordRef fieldMask:mergeFieldMask];
                                 [linkedContactsIDs addObject:@(ABRecordGetRecordID(linkedRecordRef))];
                             }
                         }

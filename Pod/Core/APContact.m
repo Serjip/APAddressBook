@@ -15,7 +15,7 @@
 
 #pragma mark - life cycle
 
-- (id)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask
+- (instancetype)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask
 {
     self = [super init];
     if (self)
@@ -104,50 +104,45 @@
     return self;
 }
 
-- (BOOL)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask
+- (void)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask
 {
-    if (! fieldMask)
-    {
-        return NO;
-    }
-    
     if (fieldMask & APContactFieldFirstName)
     {
-        if (! [[self stringProperty:kABPersonFirstNameProperty fromRecord:recordRef] isEqualToString:self.firstName])
+        if (! self.firstName)
         {
-            return NO;
+            _firstName = [self stringProperty:kABPersonFirstNameProperty fromRecord:recordRef];
         }
     }
     
     if (fieldMask & APContactFieldMiddleName)
     {
-        if (! [[self stringProperty:kABPersonMiddleNameProperty fromRecord:recordRef] isEqualToString:self.middleName])
+        if (! self.middleName)
         {
-            return NO;
+            _middleName = [self stringProperty:kABPersonMiddleNameProperty fromRecord:recordRef];
         }
     }
     
     if (fieldMask & APContactFieldLastName)
     {
-        if (! [[self stringProperty:kABPersonLastNameProperty fromRecord:recordRef] isEqualToString:self.lastName])
+        if (! self.lastName)
         {
-            return NO;
+            _lastName = [self stringProperty:kABPersonLastNameProperty fromRecord:recordRef];
         }
     }
     
     if (fieldMask & APContactFieldCompositeName)
     {
-        if (! [[self compositeNameFromRecord:recordRef] isEqualToString:self.compositeName])
+        if (! self.compositeName)
         {
-            return NO;
+            _compositeName = [self compositeNameFromRecord:recordRef];
         }
     }
     
     if (fieldMask & APContactFieldCompany)
     {
-        if (! [[self stringProperty:kABPersonOrganizationProperty fromRecord:recordRef] isEqualToString:self.company])
+        if (! self.company ||! self.company.length)
         {
-            return NO;
+            _company = [self stringProperty:kABPersonOrganizationProperty fromRecord:recordRef];
         }
     }
     
@@ -182,6 +177,8 @@
             }
             [phoneWithLabels addObject:pwl];
         }
+        
+        _phonesWithLabels = phoneWithLabels;
     }
     
     if (fieldMask & APContactFieldEmails)
@@ -257,13 +254,11 @@
 
     if (fieldMask & APContactFieldNote)
     {
-        if (! self.note)
+        if (! self.note || ! self.note.length)
         {
             _note = [self stringProperty:kABPersonNoteProperty fromRecord:recordRef];
         }
     }
-
-    return YES;
 }
 
 #pragma mark - private
