@@ -7,9 +7,10 @@
 //
 
 #import "APContact.h"
-#import "APPhoneWithLabel.h"
 #import "APAddress.h"
+#import "APURLWithLabel.h"
 #import "APSocialProfile.h"
+#import "APPhoneWithLabel.h"
 
 @implementation APContact
 
@@ -102,7 +103,7 @@
         }
         if (fieldMask & APContactFieldURLs)
         {
-            _URLs = [self arrayProperty:kABPersonURLProperty fromRecord:recordRef];
+            _URLsWithLabels = [self arrayOfURLsWithLabelsFromRecord:recordRef];
         }
     }
     return self;
@@ -266,19 +267,17 @@
     
     if (fieldMask & APContactFieldURLs)
     {
-        NSMutableArray *URLs = [NSMutableArray arrayWithArray:self.URLs];
-        NSArray *URLsToMerge = [self arrayProperty:kABPersonURLProperty fromRecord:recordRef];
-        
-        for (NSString *URL in URLsToMerge)
+        NSMutableArray *URLsWithLabels = [NSMutableArray arrayWithArray:self.URLsWithLabels];
+        for (APURLWithLabel *Uwl in [self arrayOfURLsWithLabelsFromRecord:recordRef])
         {
-            if ([self.URLs containsObject:URL])
+            if ([self.URLsWithLabels containsObject:Uwl])
             {
                 continue;
             }
-            
-            [URLs addObject:URL];
+            [URLsWithLabels addObject:Uwl];
         }
-        _URLs = URLs;
+        
+        _URLsWithLabels = URLsWithLabels;
     }
 }
 
@@ -329,6 +328,23 @@
             [array addObject:phoneWithLabel];
         }
     }];
+    return array.copy;
+}
+
+- (NSArray *)arrayOfURLsWithLabelsFromRecord:(ABRecordRef)recordRef
+{
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    [self enumerateMultiValueOfProperty:kABPersonURLProperty fromRecord:recordRef
+                              withBlock:^(ABMultiValueRef multiValue, NSUInteger index)
+     {
+         NSString *URL = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(multiValue, index);
+         if (URL)
+         {
+             NSString *label = [self localizedLabelFromMultiValue:multiValue index:index];
+             APURLWithLabel *URLWithLabel = [[APURLWithLabel alloc] initWithURL:URL label:label];
+             [array addObject:URLWithLabel];
+         }
+     }];
     return array.copy;
 }
 

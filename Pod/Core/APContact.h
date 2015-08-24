@@ -30,7 +30,7 @@
 @property (nonatomic, readonly) NSDate *modificationDate;
 @property (nonatomic, readonly) NSArray *socialProfiles;
 @property (nonatomic, readonly) NSString *note;
-@property (nonatomic, readonly) NSArray *URLs;
+@property (nonatomic, readonly) NSArray *URLsWithLabels;
 
 - (instancetype)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
 - (void)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
