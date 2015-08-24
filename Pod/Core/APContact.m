@@ -100,6 +100,10 @@
         {
             _note = [self stringProperty:kABPersonNoteProperty fromRecord:recordRef];
         }
+        if (fieldMask & APContactFieldURLs)
+        {
+            _URLs = [self arrayProperty:kABPersonURLProperty fromRecord:recordRef];
+        }
     }
     return self;
 }
@@ -258,6 +262,23 @@
         {
             _note = [self stringProperty:kABPersonNoteProperty fromRecord:recordRef];
         }
+    }
+    
+    if (fieldMask & APContactFieldURLs)
+    {
+        NSMutableArray *URLs = [NSMutableArray arrayWithArray:self.URLs];
+        NSArray *URLsToMerge = [self arrayProperty:kABPersonURLProperty fromRecord:recordRef];
+        
+        for (NSString *URL in URLsToMerge)
+        {
+            if ([self.URLs containsObject:URL])
+            {
+                continue;
+            }
+            
+            [URLs addObject:URL];
+        }
+        _URLs = URLs;
     }
 }
 

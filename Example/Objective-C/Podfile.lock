@@ -2,9 +2,9 @@ PODS:
   - DTTableViewManager (2.0.1)
 
 DEPENDENCIES:
-  - DTTableViewManager
+  - DTTableViewManager (~> 2.0.1)
 
 SPEC CHECKSUMS:
-  DTTableViewManager: 9455d5b395997ccf0b30fd7e6adbed2db4662c3a
+  DTTableViewManager: 423a724851a4c320a971bcd7499192964ca33262
 
-COCOAPODS: 0.34.4
+COCOAPODS: 0.36.0
