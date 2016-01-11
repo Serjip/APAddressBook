@@ -71,7 +71,7 @@
                 APAddress *address = [[APAddress alloc] initWithAddressDictionary:dictionary];
                 [addresses addObject:address];
             }
-            _addresses = addresses.copy;
+            _addresses = addresses;
         }
         if (fieldMask & APContactFieldRecordID)
         {
@@ -235,7 +235,7 @@
             
             [addresses addObject:address];
         }
-        _addresses = addresses.copy;
+        _addresses = addresses;
     }
 
     if (fieldMask & APContactFieldSocialProfiles)
@@ -302,7 +302,7 @@
             [array addObject:string];
         }
     }];
-    return array.copy;
+    return [NSArray arrayWithArray:array];
 }
 
 
@@ -328,7 +328,7 @@
             [array addObject:phoneWithLabel];
         }
     }];
-    return array.copy;
+    return [NSArray arrayWithArray:array];
 }
 
 - (NSArray *)arrayOfURLsWithLabelsFromRecord:(ABRecordRef)recordRef
@@ -345,7 +345,7 @@
              [array addObject:URLWithLabel];
          }
      }];
-    return array.copy;
+    return [NSArray arrayWithArray:array];
 }
 
 - (UIImage *)imagePropertyFullSize:(BOOL)isFullSize fromRecord:(ABRecordRef)recordRef
@@ -382,12 +382,15 @@
                             withBlock:(void (^)(ABMultiValueRef multiValue, NSUInteger index))block
 {
     ABMultiValueRef multiValue = ABRecordCopyValue(recordRef, property);
-    NSUInteger count = (NSUInteger)ABMultiValueGetCount(multiValue);
-    for (NSUInteger i = 0; i < count; i++)
+    if (multiValue)
     {
-        block(multiValue, i);
+        NSUInteger count = (NSUInteger)ABMultiValueGetCount(multiValue);
+        for (NSUInteger i = 0; i < count; i++)
+        {
+            block(multiValue, i);
+        }
+        CFRelease(multiValue);
     }
-    CFRelease(multiValue);
 }
 
 @end
