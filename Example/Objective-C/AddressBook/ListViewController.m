@@ -107,8 +107,9 @@
     addressBook.fieldsMask = APContactFieldAll;
     addressBook.mergeFieldsMask = APContactFieldAll;
     addressBook.sortDescriptors = @[
-    [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES],
-    [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES]];
+        [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES selector:@selector(caseInsensitiveCompare:)],
+        [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES selector:@selector(caseInsensitiveCompare:)]
+    ];
     addressBook.filterBlock = ^BOOL(APContact *contact)
     {
         return contact.phones.count > 0;
