@@ -28,11 +28,13 @@
 
 - (BOOL)isEqual:(id)object
 {
-    if (self == object) {
+    if (self == object)
+    {
         return YES;
     }
     
-    if (![object isKindOfClass:[APURLWithLabel class]]) {
+    if (! [object isKindOfClass:[APURLWithLabel class]])
+    {
         return NO;
     }
     

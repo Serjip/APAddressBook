@@ -28,11 +28,13 @@
 
 - (BOOL)isEqual:(id)object
 {
-    if (self == object) {
+    if (self == object)
+    {
         return YES;
     }
     
-    if (![object isKindOfClass:[APPhoneWithLabel class]]) {
+    if (! [object isKindOfClass:[APPhoneWithLabel class]])
+    {
         return NO;
     }
     

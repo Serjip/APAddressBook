@@ -9,32 +9,25 @@
 #import "APSocialProfile.h"
 #import <AddressBook/AddressBook.h>
 
-@interface APSocialProfile ()
-@property (nonatomic, readwrite) APSocialNetworkType socialNetwork;
-@property (nonatomic, readwrite) NSString *username;
-@property (nonatomic, readwrite) NSString *userIdentifier;
-@property (nonatomic, readwrite) NSURL *url;
-@end
-
 @implementation APSocialProfile
 
 #pragma mark - life cycle
 
 - (instancetype)initWithSocialDictionary:(NSDictionary *)dictionary
 {
-    
-    if (self = [super init])
+    self = [super init];
+    if (self)
     {
-        NSString *urlKey = (__bridge_transfer NSString *)kABPersonSocialProfileURLKey;
+        NSString *URLKey = (__bridge_transfer NSString *)kABPersonSocialProfileURLKey;
         NSString *usernameKey = (__bridge_transfer NSString *)kABPersonSocialProfileUsernameKey;
         NSString *userIdKey = (__bridge_transfer NSString *)kABPersonSocialProfileUserIdentifierKey;
         NSString *serviceKey = (__bridge_transfer NSString *)kABPersonSocialProfileServiceKey;
-        _url = [NSURL URLWithString:dictionary[urlKey]];
+       
+        _URL = [NSURL URLWithString:dictionary[URLKey]];
         _username = dictionary[usernameKey];
         _userIdentifier = dictionary[userIdKey];
         _socialNetwork = [self socialNetworkTypeFromString:dictionary[serviceKey]];
     }
-    
     return self;
 }
 
@@ -55,7 +48,7 @@
         return NO;
     }
     
-    if (! [self.url.absoluteString isEqualToString:socialProfile.url.absoluteString])
+    if (! [self.URL.absoluteString isEqualToString:socialProfile.URL.absoluteString])
     {
         return NO;
     }
@@ -65,11 +58,13 @@
 
 - (BOOL)isEqual:(id)object
 {
-    if (self == object) {
+    if (self == object)
+    {
         return YES;
     }
     
-    if (![object isKindOfClass:[APSocialProfile class]]) {
+    if (! [object isKindOfClass:[APSocialProfile class]])
+    {
         return NO;
     }
     

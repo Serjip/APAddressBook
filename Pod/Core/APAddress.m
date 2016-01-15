@@ -58,11 +58,13 @@
 
 - (BOOL)isEqual:(id)object
 {
-    if (self == object) {
+    if (self == object)
+    {
         return YES;
     }
     
-    if (![object isKindOfClass:[APAddress class]]) {
+    if (! [object isKindOfClass:[APAddress class]])
+    {
         return NO;
     }
     
