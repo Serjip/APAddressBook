@@ -10,16 +10,17 @@
 #import "APAddressBook.h"
 #import "APContact.h"
 
-void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDictionaryRef info,
-                                         void *context);
-
 @interface APAddressBook ()
-@property (nonatomic, readonly) ABAddressBookRef addressBook;
+
 @property (nonatomic, readonly) dispatch_queue_t localQueue;
 @property (nonatomic, copy) void (^changeCallback)();
+
 @end
 
-@implementation APAddressBook
+@implementation APAddressBook {
+@private
+    ABAddressBookRef _addressBookRef;
+}
 
 #pragma mark - life cycle
 
@@ -28,15 +29,14 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
     self = [super init];
     if (self)
     {
-        CFErrorRef *error = NULL;
-        _addressBook = ABAddressBookCreateWithOptions(NULL, error);
-        if (error)
+        CFErrorRef errorRef = NULL;
+        _addressBookRef = ABAddressBookCreateWithOptions(NULL, &errorRef);
+        if (errorRef)
         {
-            NSLog(@"%@", (__bridge_transfer NSString *)CFErrorCopyFailureReason(*error));
+            NSLog(@"%@", (__bridge_transfer NSString *)CFErrorCopyFailureReason(errorRef));
             return nil;
         }
-        NSString *name = [NSString stringWithFormat:@"com.alterplay.addressbook.%ld",
-                                   (long)self.hash];
+        NSString *name = [NSString stringWithFormat:@"com.alterplay.addressbook.%ld", (long)self.hash];
         _localQueue = dispatch_queue_create([name cStringUsingEncoding:NSUTF8StringEncoding], NULL);
         self.fieldsMask = APContactFieldDefault;
     }
@@ -46,9 +46,9 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
 - (void)dealloc
 {
     [self stopObserveChanges];
-    if (_addressBook)
+    if (_addressBookRef)
     {
-        CFRelease(_addressBook);
+        CFRelease(_addressBookRef);
     }
 #if !OS_OBJECT_USE_OBJC
     dispatch_release(_localQueue);
@@ -79,15 +79,14 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
     [self loadContactsOnQueue:dispatch_get_main_queue() completion:callbackBlock];
 }
 
-- (void)loadContactsOnQueue:(dispatch_queue_t)queue
-                 completion:(void (^)(NSArray *contacts, NSError *error))completionBlock
+- (void)loadContactsOnQueue:(dispatch_queue_t)queue completion:(void (^)(NSArray *contacts, NSError *error))completionBlock
 {
     APContactField fieldMask = self.fieldsMask;
     APContactField mergeFieldMask = self.mergeFieldsMask;
     NSArray *descriptors = self.sortDescriptors;
     APContactFilterBlock filterBlock = self.filterBlock;
 
-	ABAddressBookRequestAccessWithCompletion(self.addressBook, ^(bool granted, CFErrorRef errorRef)
+	ABAddressBookRequestAccessWithCompletion(_addressBookRef, ^(bool granted, CFErrorRef errorRef)
 	{
 	    dispatch_async(self.localQueue, ^
         {
@@ -95,7 +94,7 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
 	        NSError *error = nil;
             if (granted)
             {
-                CFArrayRef peopleArrayRef = ABAddressBookCopyArrayOfAllPeople(self.addressBook);
+                CFArrayRef peopleArrayRef = ABAddressBookCopyArrayOfAllPeople(_addressBookRef);
                 NSUInteger contactCount = (NSUInteger)CFArrayGetCount(peopleArrayRef);
                 NSMutableArray *contacts = [NSMutableArray arrayWithCapacity:contactCount];
                 NSMutableSet *linkedContactsIDs = [NSMutableSet set];
@@ -168,13 +167,12 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
 
 - (void)startObserveChangesWithCallback:(void (^)())callback
 {
+    NSParameterAssert(callback);
     if (callback)
     {
         if (!self.changeCallback)
         {
-            ABAddressBookRegisterExternalChangeCallback(self.addressBook,
-                                                        APAddressBookExternalChangeCallback,
-                                                        (__bridge void *)(self));
+            ABAddressBookRegisterExternalChangeCallback(_addressBookRef, APAddressBookExternalChangeCallback, (__bridge void *)(self));
         }
         self.changeCallback = callback;
     }
@@ -185,17 +183,13 @@ void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDict
     if (self.changeCallback)
     {
         self.changeCallback = nil;
-        ABAddressBookUnregisterExternalChangeCallback(self.addressBook,
-                                                      APAddressBookExternalChangeCallback,
-                                                      (__bridge void *)(self));
+        ABAddressBookUnregisterExternalChangeCallback(_addressBookRef, APAddressBookExternalChangeCallback, (__bridge void *)(self));
     }
 }
 
 #pragma mark - external change callback
 
-void APAddressBookExternalChangeCallback(ABAddressBookRef __unused addressBookRef,
-                                         CFDictionaryRef __unused info,
-                                         void *context)
+static void APAddressBookExternalChangeCallback(ABAddressBookRef __unused addressBookRef, CFDictionaryRef __unused info, void *context)
 {
     ABAddressBookRevert(addressBookRef);
     APAddressBook *addressBook = (__bridge APAddressBook *)(context);
