@@ -25,8 +25,8 @@
 @property (nonatomic, strong, readonly) UIImage *photo;
 @property (nonatomic, strong, readonly) UIImage *thumbnail;
 @property (nonatomic, strong, readonly) NSNumber *recordID;
-@property (nonatomic, strong, readonly) NSDate *creationDate;
-@property (nonatomic, strong, readonly) NSDate *modificationDate;
+@property (nonatomic, strong, readonly) NSDate *creationDate NS_DEPRECATED(10_6, 10_10, 6_0, 9_0);
+@property (nonatomic, strong, readonly) NSDate *modificationDate NS_DEPRECATED(10_6, 10_10, 6_0, 9_0);
 @property (nonatomic, strong, readonly) NSArray<APSocialProfile *> *socialProfiles;
 @property (nonatomic, strong, readonly) NSString *note;
 @property (nonatomic, strong, readonly) NSArray<APURL *> *URLs;

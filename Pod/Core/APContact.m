@@ -17,6 +17,8 @@
 #import "APPhone.h"
 #import "APEmail.h"
 
+#import <Contacts/CNContact.h>
+
 @implementation APContact
 
 #pragma mark - Lifecycle
@@ -279,6 +281,120 @@
     }
 }
 
+
+- (instancetype)initWithContact:(CNContact *)contact fieldMask:(APContactField)fieldMask
+{
+    self = [super init];
+    if (self)
+    {
+        _fieldMask = fieldMask;
+        
+        if (fieldMask & APContactFieldFirstName)
+        {
+            _firstName = contact.givenName;
+        }
+        if (fieldMask & APContactFieldMiddleName)
+        {
+            _middleName = contact.middleName;
+        }
+        if (fieldMask & APContactFieldLastName)
+        {
+            _lastName = contact.familyName;
+        }
+        if (fieldMask & APContactFieldCompositeName)
+        {
+#warning Composite name
+            _compositeName = contact.givenName;
+        }
+        if (fieldMask & APContactFieldCompany)
+        {
+            _company = contact.organizationName;
+        }
+        if (fieldMask & APContactFieldJobTitle)
+        {
+            _jobTitle = contact.jobTitle;
+        }
+        if (fieldMask & APContactFieldPhones)
+        {
+            NSMutableArray *phones = [[NSMutableArray alloc] initWithCapacity:contact.phoneNumbers.count];
+            for (CNPhoneNumber *phoneNumber in contact.phoneNumbers)
+            {
+                [phones addObject:[[APPhone alloc] initWithLabledValue:phoneNumber]];
+            }
+            _phones = phones;
+        }
+        if (fieldMask & APContactFieldEmails)
+        {
+            NSMutableArray *emails = [[NSMutableArray alloc] initWithCapacity:contact.emailAddresses.count];
+            for (CNLabeledValue *email in contact.emailAddresses)
+            {
+#warning Emails
+                [emails addObject:[[APEmail alloc] initWithLabledValue:email]];
+            }
+            _emails = emails;
+        }
+        if (fieldMask & APContactFieldPhoto)
+        {
+            _photo = [UIImage imageWithData:contact.imageData scale:[UIScreen mainScreen].scale];
+        }
+        if (fieldMask & APContactFieldThumbnail)
+        {
+            _thumbnail = [UIImage imageWithData:contact.thumbnailImageData scale:[UIScreen mainScreen].scale];
+        }
+        if (fieldMask & APContactFieldAddresses)
+        {
+            NSMutableArray *addresses = [[NSMutableArray alloc] initWithCapacity:contact.postalAddresses.count];
+            for (CNPostalAddress *addr in contact.postalAddresses)
+            {
+                [addresses addObject:[[APAddress alloc] initWithPostalAddress:addr]];
+            }
+            _addresses = addresses;
+        }
+        if (fieldMask & APContactFieldRecordID)
+        {
+#warning Check the record id
+            _recordID = @(contact.identifier.integerValue);
+        }
+        if (fieldMask & APContactFieldCreationDate)
+        {
+#warning Date
+        }
+        if (fieldMask & APContactFieldModificationDate)
+        {
+#warning Date
+        }
+        if (fieldMask & APContactFieldSocialProfiles)
+        {
+            NSMutableArray *profiles = [[NSMutableArray alloc] init];
+            for (CNSocialProfile *profile in contact.socialProfiles)
+            {
+                [profiles addObject:[[APSocialProfile alloc] initWithSocialProfile:profile]];
+            }
+            _socialProfiles = profiles;
+        }
+        if (fieldMask & APContactFieldNote)
+        {
+            _note = contact.note;
+        }
+        if (fieldMask & APContactFieldURLs)
+        {
+            NSMutableArray *URLs = [[NSMutableArray alloc] initWithCapacity:contact.urlAddresses.count];
+            for (CNLabeledValue *url in contact.postalAddresses)
+            {
+#warning URLs
+                [URLs addObject:[[APURL alloc] initWithLabledValue:url]];
+            }
+            _URLs = URLs;
+        }
+    }
+    return self;
+}
+
+- (void)mergeLinkedContact:(CNContact *)contact fieldMask:(APContactField)fieldMask
+{
+#warning Merge it
+}
+
 #pragma mark - NSSecureCoding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -399,8 +515,7 @@
 
 - (UIImage *)imagePropertyFullSize:(BOOL)isFullSize fromRecord:(ABRecordRef)recordRef
 {
-    ABPersonImageFormat format = isFullSize ? kABPersonImageFormatOriginalSize :
-                                 kABPersonImageFormatThumbnail;
+    ABPersonImageFormat format = isFullSize ? kABPersonImageFormatOriginalSize : kABPersonImageFormatThumbnail;
     NSData *data = (__bridge_transfer NSData *)ABPersonCopyImageDataWithFormat(recordRef, format);
     return [UIImage imageWithData:data scale:UIScreen.mainScreen.scale];
 }
