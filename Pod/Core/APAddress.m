@@ -8,6 +8,7 @@
 
 #import "APAddress_Private.h"
 #import <AddressBook/AddressBook.h>
+#import <Contacts/CNPostalAddress.h>
 
 @implementation APAddress
 
