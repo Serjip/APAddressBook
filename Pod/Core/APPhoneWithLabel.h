@@ -10,8 +10,8 @@
 
 @interface APPhoneWithLabel : NSObject
 
-@property (nonatomic, readonly) NSString *phone;
-@property (nonatomic, readonly) NSString *label;
+@property (nonatomic, strong, readonly) NSString *phone;
+@property (nonatomic, strong, readonly) NSString *label;
 
 - (instancetype)initWithPhone:(NSString *)phone label:(NSString *)label;
 

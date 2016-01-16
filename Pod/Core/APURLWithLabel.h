@@ -10,8 +10,8 @@
 
 @interface APURLWithLabel : NSObject
 
-@property (nonatomic, readonly) NSString *URL;
-@property (nonatomic, readonly) NSString *label;
+@property (nonatomic, strong, readonly) NSString *URL;
+@property (nonatomic, strong, readonly) NSString *label;
 
 - (instancetype)initWithURL:(NSString *)URL label:(NSString *)label;
 

@@ -10,18 +10,18 @@
 
 typedef NS_ENUM(NSUInteger, APSocialNetworkType)
 {
-    APSocialNetworkUnknown = 0,
-    APSocialNetworkFacebook = 1,
-    APSocialNetworkTwitter = 2,
-    APSocialNetworkLinkedIn = 3
+    APSocialNetworkUnknown =    0,
+    APSocialNetworkFacebook =   1,
+    APSocialNetworkTwitter =    2,
+    APSocialNetworkLinkedIn =   3,
 };
 
 @interface APSocialProfile : NSObject
 
-@property (nonatomic, readonly) APSocialNetworkType socialNetwork;
-@property (nonatomic, readonly) NSString *username;
-@property (nonatomic, readonly) NSString *userIdentifier;
-@property (nonatomic, readonly) NSURL *URL;
+@property (nonatomic, assign, readonly) APSocialNetworkType socialNetwork;
+@property (nonatomic, strong, readonly) NSString *username;
+@property (nonatomic, strong, readonly) NSString *userIdentifier;
+@property (nonatomic, strong, readonly) NSURL *URL;
 
 - (instancetype)initWithSocialDictionary:(NSDictionary *)dictionary;
 
