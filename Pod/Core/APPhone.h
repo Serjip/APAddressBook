@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface APPhone : NSObject
+@interface APPhone : NSObject <NSSecureCoding, NSCopying>
 
 @property (nonatomic, strong, readonly) NSString *phone;
 @property (nonatomic, strong, readonly) NSString *label;
