@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 David Muzi. All rights reserved.
 //
 
-#import "APSocialProfile.h"
+#import "APSocialProfile_Private.h"
 #import <AddressBook/AddressBook.h>
 
 @implementation APSocialProfile
 
-#pragma mark - life cycle
+#pragma mark - Lifecycle
 
 - (instancetype)initWithSocialDictionary:(NSDictionary *)dictionary
 {
@@ -30,6 +30,36 @@
     }
     return self;
 }
+
+#pragma mark - NSSecureCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self)
+    {
+        _URL = [aDecoder decodeObjectOfClass:[NSURL class] forKey:NSStringFromSelector(@selector(URL))];
+        _username = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(username))];
+        _userIdentifier = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(userIdentifier))];
+        _socialNetwork = (NSUInteger)[aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(socialNetwork))];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_URL forKey:NSStringFromSelector(@selector(URL))];
+    [aCoder encodeObject:_username forKey:NSStringFromSelector(@selector(username))];
+    [aCoder encodeObject:_userIdentifier forKey:NSStringFromSelector(@selector(userIdentifier))];
+    [aCoder encodeInteger:_socialNetwork forKey:NSStringFromSelector(@selector(socialNetwork))];
+}
+
++ (BOOL)supportsSecureCoding
+{
+    return YES;
+}
+
+#pragma mark - Equality
 
 - (BOOL)isEqualToSocialProfile:(APSocialProfile *)socialProfile
 {
@@ -71,7 +101,7 @@
     return [self isEqualToSocialProfile:object];
 }
 
-#pragma mark - private
+#pragma mark - Private
 
 - (APSocialNetworkType)socialNetworkTypeFromString:(NSString *)string
 {

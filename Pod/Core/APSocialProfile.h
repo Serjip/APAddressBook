@@ -16,13 +16,11 @@ typedef NS_ENUM(NSUInteger, APSocialNetworkType)
     APSocialNetworkLinkedIn =   3,
 };
 
-@interface APSocialProfile : NSObject
+@interface APSocialProfile : NSObject <NSSecureCoding>
 
 @property (nonatomic, assign, readonly) APSocialNetworkType socialNetwork;
 @property (nonatomic, strong, readonly) NSString *username;
 @property (nonatomic, strong, readonly) NSString *userIdentifier;
 @property (nonatomic, strong, readonly) NSURL *URL;
-
-- (instancetype)initWithSocialDictionary:(NSDictionary *)dictionary;
 
 @end

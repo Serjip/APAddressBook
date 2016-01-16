@@ -11,7 +11,7 @@
 #import "APLabel_Private.h"
 
 #import "APAddress.h"
-#import "APSocialProfile.h"
+#import "APSocialProfile_Private.h"
 
 #import "APURL.h"
 #import "APPhone.h"

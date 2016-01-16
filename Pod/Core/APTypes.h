@@ -18,8 +18,6 @@ typedef NS_ENUM(NSUInteger, APAddressBookAccess)
     APAddressBookAccessDenied  = 2
 };
 
-typedef BOOL(^APContactFilterBlock)(APContact *contact);
-
 typedef NS_OPTIONS(NSUInteger , APContactField)
 {
     APContactFieldFirstName        = 1 << 0,
