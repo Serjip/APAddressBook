@@ -338,6 +338,36 @@
     return YES;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    APContact *copy = [[[self class] alloc] init];
+    if (copy)
+    {
+        copy->_firstName = [self.firstName copyWithZone:zone];
+        copy->_middleName = [self.middleName copyWithZone:zone];
+        copy->_lastName = [self.lastName copyWithZone:zone];
+        copy->_compositeName = [self.compositeName copyWithZone:zone];
+        copy->_company = [self.company copyWithZone:zone];
+        copy->_jobTitle = [self.jobTitle copyWithZone:zone];
+        copy->_phones = [self.phones copyWithZone:zone];
+        copy->_emails = [self.emails copyWithZone:zone];
+        copy->_addresses = [self.addresses copyWithZone:zone];
+        copy->_recordID = [self.recordID copyWithZone:zone];
+        copy->_creationDate = [self.creationDate copyWithZone:zone];
+        copy->_modificationDate = [self.modificationDate copyWithZone:zone];
+        copy->_socialProfiles = [self.socialProfiles copyWithZone:zone];
+        copy->_note = [self.note copyWithZone:zone];
+        copy->_URLs = [self.URLs copyWithZone:zone];
+        
+        // Dont copy the images
+        copy->_thumbnail = self.thumbnail;
+        copy->_photo = self.photo;
+    }
+    return copy;
+}
+
 #pragma mark - Private
 
 - (NSString *)stringProperty:(ABPropertyID)property fromRecord:(ABRecordRef)recordRef
