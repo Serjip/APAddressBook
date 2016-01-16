@@ -19,7 +19,7 @@
 
 @implementation APContact
 
-#pragma mark - life cycle
+#pragma mark - Lifecycle
 
 - (instancetype)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask
 {
@@ -277,6 +277,59 @@
         
         _URLs = URLs;
     }
+}
+
+#pragma mark - NSSecureCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self)
+    {
+        _firstName = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(firstName))];
+        _middleName = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(middleName))];
+        _lastName = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(lastName))];
+        _compositeName = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(compositeName))];
+        _company = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(company))];
+        _jobTitle = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(jobTitle))];
+        _phones = [aDecoder decodeObjectOfClass:[NSArray class] forKey:NSStringFromSelector(@selector(phones))];
+        _emails = [aDecoder decodeObjectOfClass:[NSArray class] forKey:NSStringFromSelector(@selector(emails))];
+        _addresses = [aDecoder decodeObjectOfClass:[NSArray class] forKey:NSStringFromSelector(@selector(addresses))];
+        _recordID = [aDecoder decodeObjectOfClass:[NSNumber class] forKey:NSStringFromSelector(@selector(recordID))];
+        _creationDate = [aDecoder decodeObjectOfClass:[NSDate class] forKey:NSStringFromSelector(@selector(creationDate))];
+        _modificationDate = [aDecoder decodeObjectOfClass:[NSDate class] forKey:NSStringFromSelector(@selector(modificationDate))];
+        _socialProfiles = [aDecoder decodeObjectOfClass:[NSArray class] forKey:NSStringFromSelector(@selector(socialProfiles))];
+        _note = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(note))];
+        _URLs = [aDecoder decodeObjectOfClass:[NSArray class] forKey:NSStringFromSelector(@selector(URLs))];
+        
+#warning Add photo decode
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_firstName forKey:NSStringFromSelector(@selector(firstName))];
+    [aCoder encodeObject:_middleName forKey:NSStringFromSelector(@selector(middleName))];
+    [aCoder encodeObject:_lastName forKey:NSStringFromSelector(@selector(lastName))];
+    [aCoder encodeObject:_compositeName forKey:NSStringFromSelector(@selector(compositeName))];
+    [aCoder encodeObject:_company forKey:NSStringFromSelector(@selector(company))];
+    [aCoder encodeObject:_jobTitle forKey:NSStringFromSelector(@selector(jobTitle))];
+    [aCoder encodeObject:_phones forKey:NSStringFromSelector(@selector(phones))];
+    [aCoder encodeObject:_emails forKey:NSStringFromSelector(@selector(emails))];
+    [aCoder encodeObject:_addresses forKey:NSStringFromSelector(@selector(addresses))];
+    [aCoder encodeObject:_recordID forKey:NSStringFromSelector(@selector(recordID))];
+    [aCoder encodeObject:_creationDate forKey:NSStringFromSelector(@selector(creationDate))];
+    [aCoder encodeObject:_modificationDate forKey:NSStringFromSelector(@selector(modificationDate))];
+    [aCoder encodeObject:_socialProfiles forKey:NSStringFromSelector(@selector(socialProfiles))];
+    [aCoder encodeObject:_note forKey:NSStringFromSelector(@selector(note))];
+    [aCoder encodeObject:_URLs forKey:NSStringFromSelector(@selector(URLs))];
+#warning Add photo encode
+}
+
++ (BOOL)supportsSecureCoding
+{
+    return YES;
 }
 
 #pragma mark - Private

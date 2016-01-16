@@ -11,7 +11,7 @@
 
 @class APURL, APPhone, APSocialProfile, APAddress, APEmail;
 
-@interface APContact : NSObject
+@interface APContact : NSObject <NSSecureCoding>
 
 @property (nonatomic, strong, readonly) NSString *firstName;
 @property (nonatomic, strong, readonly) NSString *middleName;
