@@ -51,7 +51,7 @@
     [aCoder encodeObject:_URL forKey:NSStringFromSelector(@selector(URL))];
     [aCoder encodeObject:_username forKey:NSStringFromSelector(@selector(username))];
     [aCoder encodeObject:_userIdentifier forKey:NSStringFromSelector(@selector(userIdentifier))];
-    [aCoder encodeInteger:_socialNetwork forKey:NSStringFromSelector(@selector(socialNetwork))];
+    [aCoder encodeInteger:(NSInteger)_socialNetwork forKey:NSStringFromSelector(@selector(socialNetwork))];
 }
 
 + (BOOL)supportsSecureCoding
