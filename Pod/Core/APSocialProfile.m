@@ -8,6 +8,7 @@
 
 #import "APSocialProfile_Private.h"
 #import <AddressBook/AddressBook.h>
+#import <Contacts/CNSocialProfile.h>
 
 @implementation APSocialProfile
 
@@ -27,6 +28,19 @@
         _username = dictionary[usernameKey];
         _userIdentifier = dictionary[userIdKey];
         _socialNetwork = [self socialNetworkTypeFromString:dictionary[serviceKey]];
+    }
+    return self;
+}
+
+- (instancetype)initWithSocialProfile:(CNSocialProfile *)socialProfile
+{
+    self = [super init];
+    if (self)
+    {
+        _URL = [NSURL URLWithString:socialProfile.urlString];
+        _username = socialProfile.username;
+        _userIdentifier = socialProfile.userIdentifier;
+        _socialNetwork = [self socialNetworkTypeFromString:socialProfile.service];
     }
     return self;
 }

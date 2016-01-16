@@ -8,8 +8,11 @@
 
 #import "APSocialProfile.h"
 
+@class CNSocialProfile;
+
 @interface APSocialProfile ()
 
-- (instancetype)initWithSocialDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithSocialDictionary:(NSDictionary *)dictionary  NS_DEPRECATED(10_6, 10_9, 6_0, 9_0);
+- (instancetype)initWithSocialProfile:(CNSocialProfile *)socialProfile NS_AVAILABLE(10_10, 9_0);
 
 @end
