@@ -12,7 +12,6 @@
 
 @interface APAddressBook ()
 
-@property (nonatomic, readonly) dispatch_queue_t localQueue;
 @property (nonatomic, copy) void (^changeCallback)();
 
 @end
@@ -20,6 +19,7 @@
 @implementation APAddressBook {
 @private
     ABAddressBookRef _addressBookRef;
+    dispatch_queue_t _addressBookQueue;
 }
 
 #pragma mark - life cycle
@@ -37,7 +37,7 @@
             return nil;
         }
         NSString *name = [NSString stringWithFormat:@"com.alterplay.addressbook.%ld", (long)self.hash];
-        _localQueue = dispatch_queue_create([name cStringUsingEncoding:NSUTF8StringEncoding], NULL);
+        _addressBookQueue = dispatch_queue_create([name cStringUsingEncoding:NSUTF8StringEncoding], NULL);
         self.fieldsMask = APContactFieldDefault;
     }
     return self;
@@ -51,7 +51,7 @@
         CFRelease(_addressBookRef);
     }
 #if !OS_OBJECT_USE_OBJC
-    dispatch_release(_localQueue);
+    dispatch_release(_addressBookQueue);
 #endif
 }
 
@@ -88,7 +88,7 @@
 
 	ABAddressBookRequestAccessWithCompletion(_addressBookRef, ^(bool granted, CFErrorRef errorRef)
 	{
-	    dispatch_async(self.localQueue, ^
+	    dispatch_async(_addressBookQueue, ^
         {
 	        NSArray *array = nil;
 	        NSError *error = nil;
