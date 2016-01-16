@@ -8,7 +8,7 @@
 
 #import "ContactTableViewCell.h"
 #import "APContact.h"
-#import "APPhoneWithLabel.h"
+#import "APPhone.h"
 
 @interface ContactTableViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *photoView;
@@ -71,7 +71,7 @@
     if (contact.phonesWithLabels.count > 0)
     {
         NSMutableString *result = [[NSMutableString alloc] init];
-        for (APPhoneWithLabel *phoneWithLabel in contact.phonesWithLabels)
+        for (APPhone *phoneWithLabel in contact.phonesWithLabels)
         {
             NSString *string = phoneWithLabel.label.length == 0 ? phoneWithLabel.phone :
                                [NSString stringWithFormat:@"%@ (%@)", phoneWithLabel.phone,

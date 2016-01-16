@@ -12,7 +12,7 @@
 #import "APAddressBook.h"
 #import <AddressBookUI/AddressBookUI.h>
 
-@interface ListViewController () <ABNewPersonViewControllerDelegate>
+@interface ListViewController () <ABNewPersonViewControllerDelegate, APAddressBookDelegate>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activity;
 @end
 
@@ -26,10 +26,8 @@
     if (self)
     {
         addressBook = [[APAddressBook alloc] init];
-        __weak typeof(self) weakSelf = self;
-        [addressBook startObserveChangesWithCallback:^{
-            [weakSelf loadContacts];
-        }];
+        addressBook.delegate = self;
+        [addressBook startObserveChanges];
     }
     return self;
 }
@@ -103,34 +101,43 @@
 {
     [self.memoryStorage removeAllTableItems];
     [self.activity startAnimating];
-    __weak __typeof(self) weakSelf = self;
+    
     addressBook.fieldsMask = APContactFieldAll;
     addressBook.mergeFieldsMask = APContactFieldAll;
     addressBook.sortDescriptors = @[
         [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES selector:@selector(caseInsensitiveCompare:)],
         [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES selector:@selector(caseInsensitiveCompare:)]
     ];
-    addressBook.filterBlock = ^BOOL(APContact *contact)
-    {
-        return contact.phones.count > 0;
-    };
-    [addressBook loadContacts:^(NSArray *contacts, NSError *error)
-    {
-        [weakSelf.activity stopAnimating];
-        if (!error)
-        {
-            [weakSelf.memoryStorage addTableItems:contacts];
-        }
-        else
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
-                                                                message:error.localizedDescription
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-        }
-    }];
+    
+    [addressBook loadContacts];
+}
+
+#pragma mark - APAddressBookDelegate
+
+- (void)addressBookDidChnage:(APAddressBook *)addressBook
+{
+    [self loadContacts];
+}
+
+- (void)addressBook:(APAddressBook *)addressBook didFailLoadContacts:(NSError *)error
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:error.localizedDescription
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+}
+
+- (void)addressBook:(APAddressBook *)addressBook didLoadContacts:(NSArray<APContact *> *)contacts
+{
+    [self.activity stopAnimating];
+    [self.memoryStorage addTableItems:contacts];
+}
+
+- (BOOL)addressBook:(APAddressBook *)addressBook shouldAddContact:(APContact *)contact
+{
+    return contact.phones.count > 0;
 }
 
 @end
