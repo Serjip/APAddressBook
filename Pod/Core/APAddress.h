@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface APAddress : NSObject <NSSecureCoding>
+@interface APAddress : NSObject <NSCopying, NSSecureCoding>
 
 @property (nonatomic, strong, readonly) NSString *street;
 @property (nonatomic, strong, readonly) NSString *city;

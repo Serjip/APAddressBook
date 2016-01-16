@@ -76,6 +76,23 @@
     return YES;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    APAddress *copy = [[[self class] alloc] init];
+    if (copy)
+    {
+        copy->_street = [self.street copyWithZone:zone];
+        copy->_city = [self.city copyWithZone:zone];
+        copy->_state = [self.state copyWithZone:zone];
+        copy->_zip = [self.zip copyWithZone:zone];
+        copy->_country = [self.country copyWithZone:zone];
+        copy->_ISOCountryCode = [self.ISOCountryCode copyWithZone:zone];
+    }
+    return copy;
+}
+
 #pragma mark - Equality
 
 - (BOOL)isEqualToAddress:(APAddress *)address
