@@ -74,9 +74,9 @@
         NSMutableString *result = [[NSMutableString alloc] init];
         for (APPhone *phoneWithLabel in contact.phones)
         {
-            NSString *string = phoneWithLabel.label.length == 0 ? phoneWithLabel.phone :
+            NSString *string = phoneWithLabel.originalLabel.length == 0 ? phoneWithLabel.phone :
                                [NSString stringWithFormat:@"%@ (%@)", phoneWithLabel.phone,
-                                         phoneWithLabel.label];
+                                         phoneWithLabel.originalLabel];
             [result appendFormat:@"%@, ", string];
         }
         return result;
