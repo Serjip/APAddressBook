@@ -6,19 +6,26 @@
 //  Copyright (c) 2014 alterplay. All rights reserved.
 //
 
-#import "APPhone.h"
+#import "APPhone_Private.h"
 
 @implementation APPhone
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithPhone:(NSString *)phone label:(NSString *)label
+- (instancetype)initWithMultiValue:(ABMultiValueRef)multiValue index:(CFIndex)index
 {
     self = [super init];
     if(self)
     {
-        _phone = phone;
-        _label = label;
+        _phone = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(multiValue, index);
+        
+        CFStringRef label = ABMultiValueCopyLabelAtIndex(multiValue, index);
+        if (label)
+        {
+            _label = (__bridge NSString *)label;
+            _localizedLabel = (__bridge_transfer NSString *)ABAddressBookCopyLocalizedLabel(label);
+            CFRelease(label);
+        }
     }
     return self;
 }
@@ -32,6 +39,7 @@
     {
         _phone = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(phone))];
         _label = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(label))];
+        _localizedLabel = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(localizedLabel))];
     }
     return self;
 }
@@ -40,6 +48,7 @@
 {
     [aCoder encodeObject:_phone forKey:NSStringFromSelector(@selector(phone))];
     [aCoder encodeObject:_label forKey:NSStringFromSelector(@selector(label))];
+    [aCoder encodeObject:_localizedLabel forKey:NSStringFromSelector(@selector(localizedLabel))];
 }
 
 + (BOOL)supportsSecureCoding
@@ -56,6 +65,7 @@
     {
         copy->_phone = [self.phone copyWithZone:zone];
         copy->_label = [self.label copyWithZone:zone];
+        copy->_localizedLabel = [self.localizedLabel copyWithZone:zone];
     }
     return copy;
 }

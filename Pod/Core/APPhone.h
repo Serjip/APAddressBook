@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong, readonly) NSString *phone;
 @property (nonatomic, strong, readonly) NSString *label;
-
-- (instancetype)initWithPhone:(NSString *)phone label:(NSString *)label;
+@property (nonatomic, strong, readonly) NSString *localizedLabel;
 
 @end

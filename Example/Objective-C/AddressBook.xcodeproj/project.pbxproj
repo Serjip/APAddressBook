@@ -36,6 +36,7 @@
 		6084C3D31A504C79BEA08B84 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6496F61BD33753BB99E0AB3D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8DB33874E6CEAEB5C3CAD23B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		D2645DE01C4A7CA800CF3252 /* APPhone_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPhone_Private.h; sourceTree = "<group>"; };
 		FA662818187FE9EF00667C81 /* AddressBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddressBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA66281B187FE9EF00667C81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FA66281D187FE9EF00667C81 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -223,6 +224,7 @@
 				527DA5571B8B61DD00340F72 /* APURL.m */,
 				FAB405A8199E5F2000E8E62D /* APPhone.h */,
 				FAB405A9199E5F2000E8E62D /* APPhone.m */,
+				D2645DE01C4A7CA800CF3252 /* APPhone_Private.h */,
 				FAB405AA199E5F2000E8E62D /* APSocialProfile.h */,
 				FAB405AB199E5F2000E8E62D /* APSocialProfile.m */,
 				FAB405AC199E5F2000E8E62D /* APTypes.h */,

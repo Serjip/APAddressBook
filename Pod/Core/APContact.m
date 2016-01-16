@@ -10,7 +10,7 @@
 #import "APAddress.h"
 #import "APURL.h"
 #import "APSocialProfile.h"
-#import "APPhone.h"
+#import "APPhone_Private.h"
 
 @implementation APContact
 
@@ -44,7 +44,15 @@
         }
         if (fieldMask & APContactFieldPhones)
         {
-            _phones = [self arrayOfPhonesWithLabelsFromRecord:recordRef];
+            NSMutableArray *phones = [NSMutableArray array];
+            [self enumerateMultiValueOfProperty:kABPersonPhoneProperty fromRecord:recordRef withBlock:^(ABMultiValueRef multiValue, CFIndex index) {
+                APPhone *p = [[APPhone alloc] initWithMultiValue:multiValue index:index];
+                if (p)
+                {
+                    [phones addObject:p];
+                }
+            }];
+            _phones = [NSArray arrayWithArray:phones];
         }
         if (fieldMask & APContactFieldEmails)
         {
@@ -150,7 +158,15 @@
     if (fieldMask & APContactFieldPhones)
     {
         NSMutableArray *phones = [NSMutableArray arrayWithArray:self.phones];
-        NSArray *phoneToMerge = [self arrayOfPhonesWithLabelsFromRecord:recordRef];
+        
+        NSMutableArray *phoneToMerge = [NSMutableArray array];
+        [self enumerateMultiValueOfProperty:kABPersonPhoneProperty fromRecord:recordRef withBlock:^(ABMultiValueRef multiValue, CFIndex index) {
+            APPhone *p = [[APPhone alloc] initWithMultiValue:multiValue index:index];
+            if (p)
+            {
+                [phoneToMerge addObject:p];
+            }
+        }];
         
         for (APPhone *p in phoneToMerge)
         {
@@ -271,7 +287,7 @@
 {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     [self enumerateMultiValueOfProperty:property fromRecord:recordRef
-                              withBlock:^(ABMultiValueRef multiValue, NSUInteger index)
+                              withBlock:^(ABMultiValueRef multiValue, CFIndex index)
     {
         CFTypeRef value = ABMultiValueCopyValueAtIndex(multiValue, index);
         NSString *string = (__bridge_transfer NSString *)value;
@@ -283,36 +299,17 @@
     return [NSArray arrayWithArray:array];
 }
 
-
 - (NSDate *)dateProperty:(ABPropertyID)property fromRecord:(ABRecordRef)recordRef
 {
     CFDateRef dateRef = (ABRecordCopyValue(recordRef, property));
     return (__bridge_transfer NSDate *)dateRef;
 }
 
-- (NSArray *)arrayOfPhonesWithLabelsFromRecord:(ABRecordRef)recordRef
-{
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    [self enumerateMultiValueOfProperty:kABPersonPhoneProperty fromRecord:recordRef
-                              withBlock:^(ABMultiValueRef multiValue, NSUInteger index)
-    {
-        CFTypeRef rawPhone = ABMultiValueCopyValueAtIndex(multiValue, index);
-        NSString *phone = (__bridge_transfer NSString *)rawPhone;
-        if (phone)
-        {
-            NSString *label = [self localizedLabelFromMultiValue:multiValue index:index];
-            APPhone *phoneWithLabel = [[APPhone alloc] initWithPhone:phone label:label];
-            [array addObject:phoneWithLabel];
-        }
-    }];
-    return [NSArray arrayWithArray:array];
-}
-
 - (NSArray *)arrayOfURLsWithLabelsFromRecord:(ABRecordRef)recordRef
 {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     [self enumerateMultiValueOfProperty:kABPersonURLProperty fromRecord:recordRef
-                              withBlock:^(ABMultiValueRef multiValue, NSUInteger index)
+                              withBlock:^(ABMultiValueRef multiValue, CFIndex index)
      {
          NSString *URL = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(multiValue, index);
          if (URL)
@@ -350,13 +347,13 @@
 }
 
 - (void)enumerateMultiValueOfProperty:(ABPropertyID)property fromRecord:(ABRecordRef)recordRef
-                            withBlock:(void (^)(ABMultiValueRef multiValue, NSUInteger index))block
+                            withBlock:(void (^)(ABMultiValueRef multiValue, CFIndex index))block
 {
     ABMultiValueRef multiValue = ABRecordCopyValue(recordRef, property);
     if (multiValue)
     {
-        NSUInteger count = (NSUInteger)ABMultiValueGetCount(multiValue);
-        for (NSUInteger i = 0; i < count; i++)
+        CFIndex count = ABMultiValueGetCount(multiValue);
+        for (CFIndex i = 0; i < count; i++)
         {
             block(multiValue, i);
         }
