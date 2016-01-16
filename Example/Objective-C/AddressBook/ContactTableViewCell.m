@@ -9,6 +9,7 @@
 #import "ContactTableViewCell.h"
 #import "APContact.h"
 #import "APPhone.h"
+#import "APEmail.h"
 
 @interface ContactTableViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *photoView;
@@ -94,7 +95,14 @@
     }
     else
     {
-        return contact.emails.firstObject ?: @"(No emails)";
+        if (contact.emails)
+        {
+            return contact.emails.firstObject.address;
+        }
+        else
+        {
+            return @"(No emails)";
+        }
     }
 }
 
