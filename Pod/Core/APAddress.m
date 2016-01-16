@@ -23,7 +23,22 @@
         _state = dictionary[(__bridge NSString *)kABPersonAddressStateKey];
         _zip = dictionary[(__bridge NSString *)kABPersonAddressZIPKey];
         _country = dictionary[(__bridge NSString *)kABPersonAddressCountryKey];
-        _countryCode = dictionary[(__bridge NSString *)kABPersonAddressCountryCodeKey];
+        _ISOCountryCode = dictionary[(__bridge NSString *)kABPersonAddressCountryCodeKey];
+    }
+    return self;
+}
+
+- (instancetype)initWithPostalAddress:(CNPostalAddress *)address
+{
+    self = [super init];
+    if (self)
+    {
+        _street = address.street;
+        _city = address.city;
+        _state = address.state;
+        _zip = address.postalCode;
+        _country = address.country;
+        _ISOCountryCode = address.ISOCountryCode;
     }
     return self;
 }
@@ -40,7 +55,7 @@
         _state = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(state))];
         _zip = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(zip))];
         _country = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(country))];
-        _countryCode = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(countryCode))];
+        _ISOCountryCode = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(ISOCountryCode))];
     }
     return self;
 }
@@ -52,7 +67,7 @@
     [aCoder encodeObject:_state forKey:NSStringFromSelector(@selector(state))];
     [aCoder encodeObject:_zip forKey:NSStringFromSelector(@selector(zip))];
     [aCoder encodeObject:_country forKey:NSStringFromSelector(@selector(country))];
-    [aCoder encodeObject:_countryCode forKey:NSStringFromSelector(@selector(countryCode))];
+    [aCoder encodeObject:_ISOCountryCode forKey:NSStringFromSelector(@selector(ISOCountryCode))];
 }
 
 + (BOOL)supportsSecureCoding
@@ -84,7 +99,7 @@
     {
         return NO;
     }
-    if (! [self.countryCode isEqualToString:address.countryCode])
+    if (! [self.ISOCountryCode isEqualToString:address.ISOCountryCode])
     {
         return NO;
     }

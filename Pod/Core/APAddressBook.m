@@ -7,6 +7,7 @@
 //
 
 #import "APAddressBook.h"
+#import <Contacts/Contacts.h>
 #import "APContact_Private.h"
 
 @implementation APAddressBook {

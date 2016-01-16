@@ -12,6 +12,7 @@
 		A495CDF35F214F43AFF3AAF9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6084C3D31A504C79BEA08B84 /* libPods.a */; };
 		D2645DE31C4A92B700CF3252 /* APLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DE21C4A92B700CF3252 /* APLabel.m */; };
 		D2645DE71C4A961E00CF3252 /* APEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DE61C4A961E00CF3252 /* APEmail.m */; };
+		D2645DEC1C4AB2C400CF3252 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2645DEB1C4AB2C400CF3252 /* Contacts.framework */; };
 		FA66281C187FE9EF00667C81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA66281B187FE9EF00667C81 /* Foundation.framework */; };
 		FA66281E187FE9EF00667C81 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA66281D187FE9EF00667C81 /* CoreGraphics.framework */; };
 		FA662820187FE9EF00667C81 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA66281F187FE9EF00667C81 /* UIKit.framework */; };
@@ -46,6 +47,7 @@
 		D2645DE81C4A9FDC00CF3252 /* APContact_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APContact_Private.h; sourceTree = "<group>"; };
 		D2645DE91C4AAA9300CF3252 /* APSocialProfile_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APSocialProfile_Private.h; sourceTree = "<group>"; };
 		D2645DEA1C4AADC800CF3252 /* APAddress_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAddress_Private.h; sourceTree = "<group>"; };
+		D2645DEB1C4AB2C400CF3252 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		FA662818187FE9EF00667C81 /* AddressBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddressBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA66281B187FE9EF00667C81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FA66281D187FE9EF00667C81 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -82,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2645DEC1C4AB2C400CF3252 /* Contacts.framework in Frameworks */,
 				527782AF1A2F2664007B35B5 /* AddressBookUI.framework in Frameworks */,
 				FA662862187FFCA700667C81 /* AddressBook.framework in Frameworks */,
 				FA66281E187FE9EF00667C81 /* CoreGraphics.framework in Frameworks */,
@@ -125,6 +128,7 @@
 		FA66281A187FE9EF00667C81 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D2645DEB1C4AB2C400CF3252 /* Contacts.framework */,
 				527782AE1A2F2664007B35B5 /* AddressBookUI.framework */,
 				FA662861187FFCA700667C81 /* AddressBook.framework */,
 				FA66281B187FE9EF00667C81 /* Foundation.framework */,

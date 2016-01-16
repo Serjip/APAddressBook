@@ -15,6 +15,6 @@
 @property (nonatomic, strong, readonly) NSString *state;
 @property (nonatomic, strong, readonly) NSString *zip;
 @property (nonatomic, strong, readonly) NSString *country;
-@property (nonatomic, strong, readonly) NSString *countryCode;
+@property (nonatomic, strong, readonly) NSString *ISOCountryCode;
 
 @end
