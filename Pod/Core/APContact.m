@@ -228,7 +228,7 @@
         {
             APAddress *address = [[APAddress alloc] initWithAddressDictionary:dictionary];
             
-            if ([self.addresses containsObject:addresses])
+            if ([self.addresses containsObject:address])
             {
                 continue;
             }
