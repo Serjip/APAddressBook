@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		AC7C9DDD497D46C0BC5090E1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7E250D68A454F4989DC2929 /* libPods.a */; };
-		D2645DC61C49983600CF3252 /* APAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DBA1C49983500CF3252 /* APAddress.m */; };
-		D2645DC71C49983600CF3252 /* APAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DBC1C49983500CF3252 /* APAddressBook.m */; };
-		D2645DC81C49983600CF3252 /* APContact.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DBE1C49983500CF3252 /* APContact.m */; };
-		D2645DC91C49983600CF3252 /* APPhoneWithLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DC01C49983500CF3252 /* APPhoneWithLabel.m */; };
-		D2645DCA1C49983600CF3252 /* APSocialProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DC21C49983600CF3252 /* APSocialProfile.m */; };
-		D2645DCB1C49983600CF3252 /* APURLWithLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DC51C49983600CF3252 /* APURLWithLabel.m */; };
+		D2645DDA1C4A65B100CF3252 /* APAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DCE1C4A65B100CF3252 /* APAddress.m */; };
+		D2645DDB1C4A65B100CF3252 /* APAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DD01C4A65B100CF3252 /* APAddressBook.m */; };
+		D2645DDC1C4A65B100CF3252 /* APContact.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DD21C4A65B100CF3252 /* APContact.m */; };
+		D2645DDD1C4A65B100CF3252 /* APPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DD41C4A65B100CF3252 /* APPhone.m */; };
+		D2645DDE1C4A65B100CF3252 /* APSocialProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DD61C4A65B100CF3252 /* APSocialProfile.m */; };
+		D2645DDF1C4A65B100CF3252 /* APURL.m in Sources */ = {isa = PBXBuildFile; fileRef = D2645DD91C4A65B100CF3252 /* APURL.m */; };
 		FA3B984C198ABBB5005953CE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B984B198ABBB5005953CE /* TableViewCell.swift */; };
 		FACA8345198AB2FD0059676C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACA8344198AB2FD0059676C /* AppDelegate.swift */; };
 		FACA8347198AB2FD0059676C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACA8346198AB2FD0059676C /* ViewController.swift */; };
@@ -24,19 +24,19 @@
 /* Begin PBXFileReference section */
 		66F112F4D42891A3F34E4113 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C119F157280640CA31CD4E27 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		D2645DB91C49983500CF3252 /* APAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAddress.h; sourceTree = "<group>"; };
-		D2645DBA1C49983500CF3252 /* APAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APAddress.m; sourceTree = "<group>"; };
-		D2645DBB1C49983500CF3252 /* APAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAddressBook.h; sourceTree = "<group>"; };
-		D2645DBC1C49983500CF3252 /* APAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APAddressBook.m; sourceTree = "<group>"; };
-		D2645DBD1C49983500CF3252 /* APContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APContact.h; sourceTree = "<group>"; };
-		D2645DBE1C49983500CF3252 /* APContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APContact.m; sourceTree = "<group>"; };
-		D2645DBF1C49983500CF3252 /* APPhoneWithLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPhoneWithLabel.h; sourceTree = "<group>"; };
-		D2645DC01C49983500CF3252 /* APPhoneWithLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPhoneWithLabel.m; sourceTree = "<group>"; };
-		D2645DC11C49983600CF3252 /* APSocialProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APSocialProfile.h; sourceTree = "<group>"; };
-		D2645DC21C49983600CF3252 /* APSocialProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APSocialProfile.m; sourceTree = "<group>"; };
-		D2645DC31C49983600CF3252 /* APTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APTypes.h; sourceTree = "<group>"; };
-		D2645DC41C49983600CF3252 /* APURLWithLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APURLWithLabel.h; sourceTree = "<group>"; };
-		D2645DC51C49983600CF3252 /* APURLWithLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APURLWithLabel.m; sourceTree = "<group>"; };
+		D2645DCD1C4A65B100CF3252 /* APAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAddress.h; sourceTree = "<group>"; };
+		D2645DCE1C4A65B100CF3252 /* APAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APAddress.m; sourceTree = "<group>"; };
+		D2645DCF1C4A65B100CF3252 /* APAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAddressBook.h; sourceTree = "<group>"; };
+		D2645DD01C4A65B100CF3252 /* APAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APAddressBook.m; sourceTree = "<group>"; };
+		D2645DD11C4A65B100CF3252 /* APContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APContact.h; sourceTree = "<group>"; };
+		D2645DD21C4A65B100CF3252 /* APContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APContact.m; sourceTree = "<group>"; };
+		D2645DD31C4A65B100CF3252 /* APPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPhone.h; sourceTree = "<group>"; };
+		D2645DD41C4A65B100CF3252 /* APPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPhone.m; sourceTree = "<group>"; };
+		D2645DD51C4A65B100CF3252 /* APSocialProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APSocialProfile.h; sourceTree = "<group>"; };
+		D2645DD61C4A65B100CF3252 /* APSocialProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APSocialProfile.m; sourceTree = "<group>"; };
+		D2645DD71C4A65B100CF3252 /* APTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APTypes.h; sourceTree = "<group>"; };
+		D2645DD81C4A65B100CF3252 /* APURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APURL.h; sourceTree = "<group>"; };
+		D2645DD91C4A65B100CF3252 /* APURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APURL.m; sourceTree = "<group>"; };
 		E7E250D68A454F4989DC2929 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3B984A198AB8C2005953CE /* Bridging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
 		FA3B984B198ABBB5005953CE /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -76,6 +76,26 @@
 				E7E250D68A454F4989DC2929 /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D2645DCC1C4A65B100CF3252 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D2645DCD1C4A65B100CF3252 /* APAddress.h */,
+				D2645DCE1C4A65B100CF3252 /* APAddress.m */,
+				D2645DCF1C4A65B100CF3252 /* APAddressBook.h */,
+				D2645DD01C4A65B100CF3252 /* APAddressBook.m */,
+				D2645DD11C4A65B100CF3252 /* APContact.h */,
+				D2645DD21C4A65B100CF3252 /* APContact.m */,
+				D2645DD31C4A65B100CF3252 /* APPhone.h */,
+				D2645DD41C4A65B100CF3252 /* APPhone.m */,
+				D2645DD51C4A65B100CF3252 /* APSocialProfile.h */,
+				D2645DD61C4A65B100CF3252 /* APSocialProfile.m */,
+				D2645DD71C4A65B100CF3252 /* APTypes.h */,
+				D2645DD81C4A65B100CF3252 /* APURL.h */,
+				D2645DD91C4A65B100CF3252 /* APURL.m */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		FA3B9847198AB4CC005953CE /* AppDelegate */ = {
@@ -146,31 +166,11 @@
 		FAE3963E199E6150004276D3 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				FAE3963F199E6150004276D3 /* Core */,
+				D2645DCC1C4A65B100CF3252 /* Core */,
 				FAE3964B199E6150004276D3 /* Swift */,
 			);
 			name = Pod;
 			path = ../../Pod;
-			sourceTree = "<group>";
-		};
-		FAE3963F199E6150004276D3 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				D2645DB91C49983500CF3252 /* APAddress.h */,
-				D2645DBA1C49983500CF3252 /* APAddress.m */,
-				D2645DBB1C49983500CF3252 /* APAddressBook.h */,
-				D2645DBC1C49983500CF3252 /* APAddressBook.m */,
-				D2645DBD1C49983500CF3252 /* APContact.h */,
-				D2645DBE1C49983500CF3252 /* APContact.m */,
-				D2645DBF1C49983500CF3252 /* APPhoneWithLabel.h */,
-				D2645DC01C49983500CF3252 /* APPhoneWithLabel.m */,
-				D2645DC11C49983600CF3252 /* APSocialProfile.h */,
-				D2645DC21C49983600CF3252 /* APSocialProfile.m */,
-				D2645DC31C49983600CF3252 /* APTypes.h */,
-				D2645DC41C49983600CF3252 /* APURLWithLabel.h */,
-				D2645DC51C49983600CF3252 /* APURLWithLabel.m */,
-			);
-			path = Core;
 			sourceTree = "<group>";
 		};
 		FAE3964B199E6150004276D3 /* Swift */ = {
@@ -304,14 +304,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FACA8347198AB2FD0059676C /* ViewController.swift in Sources */,
-				D2645DCA1C49983600CF3252 /* APSocialProfile.m in Sources */,
-				D2645DC71C49983600CF3252 /* APAddressBook.m in Sources */,
-				D2645DC61C49983600CF3252 /* APAddress.m in Sources */,
-				D2645DCB1C49983600CF3252 /* APURLWithLabel.m in Sources */,
-				D2645DC81C49983600CF3252 /* APContact.m in Sources */,
+				D2645DDE1C4A65B100CF3252 /* APSocialProfile.m in Sources */,
+				D2645DDB1C4A65B100CF3252 /* APAddressBook.m in Sources */,
+				D2645DDF1C4A65B100CF3252 /* APURL.m in Sources */,
+				D2645DDA1C4A65B100CF3252 /* APAddress.m in Sources */,
+				D2645DDC1C4A65B100CF3252 /* APContact.m in Sources */,
 				FA3B984C198ABBB5005953CE /* TableViewCell.swift in Sources */,
-				D2645DC91C49983600CF3252 /* APPhoneWithLabel.m in Sources */,
 				FACA8345198AB2FD0059676C /* AppDelegate.swift in Sources */,
+				D2645DDD1C4A65B100CF3252 /* APPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

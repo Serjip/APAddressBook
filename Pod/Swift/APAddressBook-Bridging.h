@@ -13,4 +13,5 @@
 #import "APContact.h"
 #import "APSocialProfile.h"
 #import "APAddress.h"
-#import "APPhoneWithLabel.h"
+#import "APPhone.h"
+#import "APURL.h"
