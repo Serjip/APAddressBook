@@ -1,5 +1,5 @@
 //
-//  APURLWithLabel.h
+//  APURL.h
 //  AddressBook
 //
 //  Created by Sergey Popov on 24.08.15.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface APURLWithLabel : NSObject
+@interface APURL : NSObject
 
 @property (nonatomic, strong, readonly) NSString *URL;
 @property (nonatomic, strong, readonly) NSString *label;

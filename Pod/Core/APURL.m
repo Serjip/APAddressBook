@@ -1,14 +1,14 @@
 //
-//  APURLWithLabel.m
+//  APURL.m
 //  AddressBook
 //
 //  Created by Sergey Popov on 24.08.15.
 //  Copyright (c) 2015 alterplay. All rights reserved.
 //
 
-#import "APURLWithLabel.h"
+#import "APURL.h"
 
-@implementation APURLWithLabel
+@implementation APURL
 
 - (instancetype)initWithURL:(NSString *)URL label:(NSString *)label
 {
@@ -21,7 +21,7 @@
     return self;
 }
 
-- (BOOL)isEqualToURLWithLabel:(APURLWithLabel *)URLWithLabel
+- (BOOL)isEqualToURLWithLabel:(APURL *)URLWithLabel
 {
     return ([URLWithLabel.URL isEqualToString:self.URL] && [URLWithLabel.label isEqualToString:self.label]);
 }
@@ -33,7 +33,7 @@
         return YES;
     }
     
-    if (! [object isKindOfClass:[APURLWithLabel class]])
+    if (! [object isKindOfClass:[APURL class]])
     {
         return NO;
     }

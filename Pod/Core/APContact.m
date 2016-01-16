@@ -8,9 +8,9 @@
 
 #import "APContact.h"
 #import "APAddress.h"
-#import "APURLWithLabel.h"
+#import "APURL.h"
 #import "APSocialProfile.h"
-#import "APPhoneWithLabel.h"
+#import "APPhone.h"
 
 @implementation APContact
 
@@ -174,7 +174,7 @@
         NSMutableArray *phoneWithLabels = [NSMutableArray arrayWithArray:self.phonesWithLabels];
         NSArray *phoneToMerge = [self arrayOfPhonesWithLabelsFromRecord:recordRef];
         
-        for (APPhoneWithLabel *pwl in phoneToMerge)
+        for (APPhone *pwl in phoneToMerge)
         {
             if ([self.phonesWithLabels containsObject:pwl])
             {
@@ -268,7 +268,7 @@
     if (fieldMask & APContactFieldURLs)
     {
         NSMutableArray *URLsWithLabels = [NSMutableArray arrayWithArray:self.URLsWithLabels];
-        for (APURLWithLabel *Uwl in [self arrayOfURLsWithLabelsFromRecord:recordRef])
+        for (APURL *Uwl in [self arrayOfURLsWithLabelsFromRecord:recordRef])
         {
             if ([self.URLsWithLabels containsObject:Uwl])
             {
@@ -323,8 +323,7 @@
         if (phone)
         {
             NSString *label = [self localizedLabelFromMultiValue:multiValue index:index];
-            APPhoneWithLabel *phoneWithLabel = [[APPhoneWithLabel alloc] initWithPhone:phone
-                                                                                 label:label];
+            APPhone *phoneWithLabel = [[APPhone alloc] initWithPhone:phone label:label];
             [array addObject:phoneWithLabel];
         }
     }];
@@ -341,7 +340,7 @@
          if (URL)
          {
              NSString *label = [self localizedLabelFromMultiValue:multiValue index:index];
-             APURLWithLabel *URLWithLabel = [[APURLWithLabel alloc] initWithURL:URL label:label];
+             APURL *URLWithLabel = [[APURL alloc] initWithURL:URL label:label];
              [array addObject:URLWithLabel];
          }
      }];
