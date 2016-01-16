@@ -36,7 +36,7 @@
         }
         if (fieldMask & APContactFieldCompositeName)
         {
-            _compositeName = [self compositeNameFromRecord:recordRef];
+            _compositeName = (__bridge_transfer NSString *)ABRecordCopyCompositeName(recordRef);
         }
         if (fieldMask & APContactFieldCompany)
         {
@@ -135,7 +135,7 @@
     {
         if (! self.compositeName)
         {
-            _compositeName = [self compositeNameFromRecord:recordRef];
+            _compositeName = (__bridge_transfer NSString *)ABRecordCopyCompositeName(recordRef);
         }
     }
     
@@ -347,12 +347,6 @@
         CFRelease(rawLabel);
     }
     return label;
-}
-
-- (NSString *)compositeNameFromRecord:(ABRecordRef)recordRef
-{
-    CFStringRef compositeNameRef = ABRecordCopyCompositeName(recordRef);
-    return (__bridge_transfer NSString *)compositeNameRef;
 }
 
 - (void)enumerateMultiValueOfProperty:(ABPropertyID)property fromRecord:(ABRecordRef)recordRef
