@@ -68,10 +68,10 @@
 
 - (NSString *)contactPhones:(APContact *)contact
 {
-    if (contact.phonesWithLabels.count > 0)
+    if (contact.phones.count > 0)
     {
         NSMutableString *result = [[NSMutableString alloc] init];
-        for (APPhone *phoneWithLabel in contact.phonesWithLabels)
+        for (APPhone *phoneWithLabel in contact.phones)
         {
             NSString *string = phoneWithLabel.label.length == 0 ? phoneWithLabel.phone :
                                [NSString stringWithFormat:@"%@ (%@)", phoneWithLabel.phone,

@@ -44,11 +44,7 @@
         }
         if (fieldMask & APContactFieldPhones)
         {
-            _phones = [self arrayProperty:kABPersonPhoneProperty fromRecord:recordRef];
-        }
-        if (fieldMask & APContactFieldPhonesWithLabels)
-        {
-            _phonesWithLabels = [self arrayOfPhonesWithLabelsFromRecord:recordRef];
+            _phones = [self arrayOfPhonesWithLabelsFromRecord:recordRef];
         }
         if (fieldMask & APContactFieldEmails)
         {
@@ -154,36 +150,18 @@
     if (fieldMask & APContactFieldPhones)
     {
         NSMutableArray *phones = [NSMutableArray arrayWithArray:self.phones];
-        NSArray *phoneToMerge = [self arrayProperty:kABPersonPhoneProperty fromRecord:recordRef];
+        NSArray *phoneToMerge = [self arrayOfPhonesWithLabelsFromRecord:recordRef];
         
-        for (NSString *p in phoneToMerge)
+        for (APPhone *p in phoneToMerge)
         {
-            if ([phones containsObject:p])
+            if ([self.phones containsObject:p])
             {
                 continue;
             }
-            
             [phones addObject:p];
         }
         
         _phones = phones;
-    }
-    
-    if (fieldMask & APContactFieldPhonesWithLabels)
-    {
-        NSMutableArray *phoneWithLabels = [NSMutableArray arrayWithArray:self.phonesWithLabels];
-        NSArray *phoneToMerge = [self arrayOfPhonesWithLabelsFromRecord:recordRef];
-        
-        for (APPhone *pwl in phoneToMerge)
-        {
-            if ([self.phonesWithLabels containsObject:pwl])
-            {
-                continue;
-            }
-            [phoneWithLabels addObject:pwl];
-        }
-        
-        _phonesWithLabels = phoneWithLabels;
     }
     
     if (fieldMask & APContactFieldEmails)
