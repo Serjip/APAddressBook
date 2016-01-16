@@ -180,7 +180,7 @@
 
 #pragma mark - external change callback
 
-static void APAddressBookExternalChangeCallback(ABAddressBookRef __unused addressBookRef, CFDictionaryRef __unused info, void *context)
+static void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDictionaryRef __unused info, void *context)
 {
     ABAddressBookRevert(addressBookRef);
     APAddressBook *addressBook = (__bridge APAddressBook *)(context);
