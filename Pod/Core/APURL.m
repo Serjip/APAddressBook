@@ -57,7 +57,7 @@
 
 - (BOOL)isEqualToURL:(APURL *)URL
 {
-    return ([URL.URLString isEqualToString:self.URLString] && [URL.label isEqualToString:self.label]);
+    return ([URL.URLString isEqualToString:self.URLString] && [URL.originalLabel isEqualToString:self.originalLabel]);
 }
 
 - (BOOL)isEqual:(id)object
@@ -79,7 +79,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ (%@)", self.URLString, self.label];
+    return [NSString stringWithFormat:@"%@ (%@)", self.URLString, self.originalLabel];
 }
 
 @end

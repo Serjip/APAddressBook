@@ -10,7 +10,7 @@
 
 @interface APLabel : NSObject <NSSecureCoding, NSCopying>
 
-@property (nonatomic, strong, readonly) NSString *label;
+@property (nonatomic, strong, readonly) NSString *originalLabel;
 @property (nonatomic, strong, readonly) NSString *localizedLabel;
 
 @end

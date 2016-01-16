@@ -20,7 +20,7 @@
         CFStringRef label = ABMultiValueCopyLabelAtIndex(multiValue, index);
         if (label)
         {
-            _label = (__bridge NSString *)label;
+            _originalLabel = (__bridge NSString *)label;
             _localizedLabel = (__bridge_transfer NSString *)ABAddressBookCopyLocalizedLabel(label);
             CFRelease(label);
         }
@@ -35,7 +35,7 @@
     self = [super init];
     if (self)
     {
-        _label = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(label))];
+        _originalLabel = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(originalLabel))];
         _localizedLabel = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(localizedLabel))];
     }
     return self;
@@ -43,7 +43,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:_label forKey:NSStringFromSelector(@selector(label))];
+    [aCoder encodeObject:_originalLabel forKey:NSStringFromSelector(@selector(originalLabel))];
     [aCoder encodeObject:_localizedLabel forKey:NSStringFromSelector(@selector(localizedLabel))];
 }
 
@@ -59,7 +59,7 @@
     APLabel *copy = [[[self class] alloc] init];
     if (copy)
     {
-        copy->_label = [self.label copyWithZone:zone];
+        copy->_originalLabel = [self.originalLabel copyWithZone:zone];
         copy->_localizedLabel = [self.localizedLabel copyWithZone:zone];
     }
     return copy;
@@ -69,7 +69,7 @@
 
 - (BOOL)isEqualToLabel:(APLabel *)label
 {
-    return [label.label isEqualToString:self.label];
+    return [label.originalLabel isEqualToString:self.originalLabel];
 }
 
 - (BOOL)isEqual:(id)object
@@ -91,7 +91,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%p %@", self, self.label];
+    return [NSString stringWithFormat:@"%p %@", self, self.originalLabel];
 }
 
 @end

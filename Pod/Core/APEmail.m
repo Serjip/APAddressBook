@@ -57,7 +57,7 @@
 
 - (BOOL)isEqualToAddress:(APEmail *)email
 {
-    return ([email.address isEqualToString:self.address] && [email.label isEqualToString:self.label]);
+    return ([email.address isEqualToString:self.address] && [email.originalLabel isEqualToString:self.originalLabel]);
 }
 
 - (BOOL)isEqual:(id)object
@@ -79,7 +79,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ (%@)", self.address, self.label];
+    return [NSString stringWithFormat:@"%@ (%@)", self.address, self.originalLabel];
 }
 
 @end

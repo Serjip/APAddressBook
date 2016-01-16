@@ -57,7 +57,7 @@
 
 - (BOOL)isEqualToPhone:(APPhone *)phone
 {
-    return ([phone.phone isEqualToString:self.phone] && [phone.label isEqualToString:self.label]);
+    return ([phone.phone isEqualToString:self.phone] && [phone.originalLabel isEqual:self.originalLabel]);
 }
 
 - (BOOL)isEqual:(id)object
@@ -79,7 +79,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ (%@)", self.phone, self.label];
+    return [NSString stringWithFormat:@"%@ (%@)", self.phone, self.originalLabel];
 }
 
 @end
