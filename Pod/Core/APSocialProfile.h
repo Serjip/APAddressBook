@@ -8,19 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, APSocialNetworkType)
+typedef NS_ENUM(NSUInteger, APSocialProfileService)
 {
-    APSocialNetworkUnknown =    0,
-    APSocialNetworkFacebook =   1,
-    APSocialNetworkTwitter =    2,
-    APSocialNetworkLinkedIn =   3,
+    APSocialProfileServiceUnknown  = 0,
+    APSocialProfileServiceFacebook = 1,
+    APSocialProfileServiceTwitter  = 2,
+    APSocialProfileServiceLinkedIn = 3,
+    APSocialProfileServiceFlickr   = 4,
+    APSocialProfileServiceMyspace  = 5,
 };
 
-@interface APSocialProfile : NSObject <NSSecureCoding>
+@interface APSocialProfile : NSObject <NSCopying, NSSecureCoding>
 
-@property (nonatomic, assign, readonly) APSocialNetworkType socialNetwork;
+@property (nonatomic, strong, readonly) NSURL *URL;
 @property (nonatomic, strong, readonly) NSString *username;
 @property (nonatomic, strong, readonly) NSString *userIdentifier;
-@property (nonatomic, strong, readonly) NSURL *URL;
+@property (nonatomic, strong, readonly) NSString *service;
+@property (nonatomic, assign, readonly) APSocialProfileService serviceType;
 
 @end

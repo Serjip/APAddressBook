@@ -27,7 +27,8 @@
         _URL = [NSURL URLWithString:dictionary[URLKey]];
         _username = dictionary[usernameKey];
         _userIdentifier = dictionary[userIdKey];
-        _socialNetwork = [self socialNetworkTypeFromString:dictionary[serviceKey]];
+        _service = dictionary[serviceKey];
+        _serviceType = [self socialNetworkTypeFromString:_service];
     }
     return self;
 }
@@ -40,7 +41,8 @@
         _URL = [NSURL URLWithString:socialProfile.urlString];
         _username = socialProfile.username;
         _userIdentifier = socialProfile.userIdentifier;
-        _socialNetwork = [self socialNetworkTypeFromString:socialProfile.service];
+        _service = socialProfile.service;
+        _serviceType = [self socialNetworkTypeFromString:socialProfile.service];
     }
     return self;
 }
@@ -55,7 +57,8 @@
         _URL = [aDecoder decodeObjectOfClass:[NSURL class] forKey:NSStringFromSelector(@selector(URL))];
         _username = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(username))];
         _userIdentifier = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(userIdentifier))];
-        _socialNetwork = (NSUInteger)[aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(socialNetwork))];
+        _service = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(service))];
+        _serviceType = (NSUInteger)[aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(serviceType))];
     }
     return self;
 }
@@ -65,7 +68,8 @@
     [aCoder encodeObject:_URL forKey:NSStringFromSelector(@selector(URL))];
     [aCoder encodeObject:_username forKey:NSStringFromSelector(@selector(username))];
     [aCoder encodeObject:_userIdentifier forKey:NSStringFromSelector(@selector(userIdentifier))];
-    [aCoder encodeInteger:(NSInteger)_socialNetwork forKey:NSStringFromSelector(@selector(socialNetwork))];
+    [aCoder encodeObject:_service forKey:NSStringFromSelector(@selector(service))];
+    [aCoder encodeInteger:(NSInteger)_serviceType forKey:NSStringFromSelector(@selector(serviceType))];
 }
 
 + (BOOL)supportsSecureCoding
@@ -73,11 +77,32 @@
     return YES;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    APSocialProfile *copy = [[[self class] alloc] init];
+    if (copy)
+    {
+        copy->_URL = [self.URL copyWithZone:zone];
+        copy->_username = [self.username copyWithZone:zone];
+        copy->_userIdentifier = [self.userIdentifier copyWithZone:zone];
+        copy->_service = [self.service copyWithZone:zone];
+        copy->_serviceType = self.serviceType;
+    }
+    return copy;
+}
+
 #pragma mark - Equality
 
 - (BOOL)isEqualToSocialProfile:(APSocialProfile *)socialProfile
 {
-    if (self.socialNetwork != socialProfile.socialNetwork)
+    if (self.serviceType != socialProfile.serviceType)
+    {
+        return NO;
+    }
+    
+    if (! [self.service isEqualToString:socialProfile.service])
     {
         return NO;
     }
@@ -117,23 +142,31 @@
 
 #pragma mark - Private
 
-- (APSocialNetworkType)socialNetworkTypeFromString:(NSString *)string
+- (APSocialProfileService)socialNetworkTypeFromString:(NSString *)string
 {
     if ([string isEqualToString:@"facebook"])
     {
-        return APSocialNetworkFacebook;
+        return APSocialProfileServiceFacebook;
     }
     else if ([string isEqualToString:@"twitter"])
     {
-        return APSocialNetworkTwitter;
+        return APSocialProfileServiceTwitter;
     }
     else if ([string isEqualToString:@"linkedin"])
     {
-        return APSocialNetworkLinkedIn;
+        return APSocialProfileServiceLinkedIn;
+    }
+    else if ([string isEqualToString:@"flickr"])
+    {
+        return APSocialProfileServiceFlickr;
+    }
+    else if ([string isEqualToString:@"myspace"])
+    {
+        return APSocialProfileServiceMyspace;
     }
     else
     {
-        return APSocialNetworkUnknown;
+        return APSocialProfileServiceUnknown;
     }
 }
 
