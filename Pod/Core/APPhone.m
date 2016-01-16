@@ -9,6 +9,8 @@
 #import "APPhone.h"
 #import "APLabel_Private.h"
 
+#import <Contacts/Contacts.h>
+
 @implementation APPhone
 
 #pragma mark - Lifecycle
@@ -19,6 +21,16 @@
     if(self)
     {
         _phone = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(multiValue, index);
+    }
+    return self;
+}
+
+- (instancetype)initWithLabledValue:(CNLabeledValue *)labledValue
+{
+    self = [super initWithLabledValue:labledValue];
+    if(self)
+    {
+        _phone = labledValue.value;
     }
     return self;
 }
