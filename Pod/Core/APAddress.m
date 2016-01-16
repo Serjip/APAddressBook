@@ -11,7 +11,7 @@
 
 @implementation APAddress
 
-- (id)initWithAddressDictionary:(NSDictionary *)dictionary
+- (instancetype)initWithAddressDictionary:(NSDictionary *)dictionary
 {
     self = [super init];
     if (self)
