@@ -17,7 +17,7 @@ class ViewController: DTTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.registerCellClass(TableViewCell.self, forModelClass: APContact.self)
-        self.addressBook.fieldsMask = APContactField.Default | APContactField.Thumbnail
+        self.addressBook.fieldsMask = [APContactField.Default, APContactField.Thumbnail]
         self.addressBook.sortDescriptors = [NSSortDescriptor(key: "firstName", ascending: true),
             NSSortDescriptor(key: "lastName", ascending: true)]
         self.addressBook.filterBlock = {(contact: APContact!) -> Bool in
