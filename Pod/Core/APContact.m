@@ -99,7 +99,7 @@
         }
         if (fieldMask & APContactFieldURLs)
         {
-            _URLsWithLabels = [self arrayOfURLsWithLabelsFromRecord:recordRef];
+            _URLs = [self arrayOfURLsWithLabelsFromRecord:recordRef];
         }
     }
     return self;
@@ -245,17 +245,17 @@
     
     if (fieldMask & APContactFieldURLs)
     {
-        NSMutableArray *URLsWithLabels = [NSMutableArray arrayWithArray:self.URLsWithLabels];
+        NSMutableArray *URLsWithLabels = [NSMutableArray arrayWithArray:self.URLs];
         for (APURL *Uwl in [self arrayOfURLsWithLabelsFromRecord:recordRef])
         {
-            if ([self.URLsWithLabels containsObject:Uwl])
+            if ([self.URLs containsObject:Uwl])
             {
                 continue;
             }
             [URLsWithLabels addObject:Uwl];
         }
         
-        _URLsWithLabels = URLsWithLabels;
+        _URLs = URLsWithLabels;
     }
 }
 
