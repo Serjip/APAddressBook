@@ -10,21 +10,22 @@
 #import "APAddressBook.h"
 #import "APContact.h"
 
-@interface APAddressBook ()
-
-@property (nonatomic, copy) void (^changeCallback)();
-
-@end
-
 @implementation APAddressBook {
 @private
     ABAddressBookRef _addressBookRef;
     dispatch_queue_t _addressBookQueue;
 }
 
-#pragma mark - life cycle
+#pragma mark - Properties
 
-- (id)init
+- (APAddressBookAccess)access
+{
+    return [APAddressBook access];
+}
+
+#pragma mark - Lifecycle
+
+- (instancetype)init
 {
     self = [super init];
     if (self)
@@ -55,7 +56,7 @@
 #endif
 }
 
-#pragma mark - public
+#pragma mark - Public
 
 + (APAddressBookAccess)access
 {
@@ -74,24 +75,17 @@
     }
 }
 
-- (void)loadContacts:(void (^)(NSArray *contacts, NSError *error))callbackBlock
-{
-    [self loadContactsOnQueue:dispatch_get_main_queue() completion:callbackBlock];
-}
-
-- (void)loadContactsOnQueue:(dispatch_queue_t)queue completion:(void (^)(NSArray *contacts, NSError *error))completionBlock
+- (void)loadContacts
 {
     APContactField fieldMask = self.fieldsMask;
     APContactField mergeFieldMask = self.mergeFieldsMask;
-    NSArray *descriptors = self.sortDescriptors;
-    APContactFilterBlock filterBlock = self.filterBlock;
-
-	ABAddressBookRequestAccessWithCompletion(_addressBookRef, ^(bool granted, CFErrorRef errorRef)
-	{
-	    dispatch_async(_addressBookQueue, ^
-        {
-	        NSArray *array = nil;
-	        NSError *error = nil;
+    NSArray *descriptors = [self.sortDescriptors copy];
+    
+    ABAddressBookRequestAccessWithCompletion(_addressBookRef, ^(bool granted, CFErrorRef errorRef) {
+        dispatch_async(_addressBookQueue, ^{
+            NSArray *array = nil;
+            NSError *error = nil;
+            
             if (granted)
             {
                 CFArrayRef peopleArrayRef = ABAddressBookCopyArrayOfAllPeople(_addressBookRef);
@@ -103,16 +97,14 @@
                 {
                     ABRecordRef recordRef = CFArrayGetValueAtIndex(peopleArrayRef, i);
                     
-                    //
                     // Checking already added contacts
-                    //
                     if ([linkedContactsIDs containsObject:@(ABRecordGetRecordID(recordRef))])
                     {
                         continue;
                     }
                     
                     APContact *contact = [[APContact alloc] initWithRecordRef:recordRef fieldMask:fieldMask];
-                    if (!filterBlock || filterBlock(contact))
+                    if (! [self.delegate respondsToSelector:@selector(addressBook:shouldAddContact:)] || [self.delegate addressBook:self shouldAddContact:contact])
                     {
                         [contacts addObject:contact];
                     }
@@ -123,13 +115,11 @@
                     if (linkedCount > 1)
                     {
                         // Merge linked contact info
-                        //
                         for (NSUInteger j = 0; j < linkedCount; j++)
                         {
                             ABRecordRef linkedRecordRef = CFArrayGetValueAtIndex(linkedPeopleArrayRef, j);
                             
                             // Don't merge the same contact
-                            //
                             if (linkedRecordRef == recordRef)
                             {
                                 continue;
@@ -146,45 +136,46 @@
                     CFRelease(linkedPeopleArrayRef);
                 }
                 [contacts sortUsingDescriptors:descriptors];
-                array = contacts.copy;
+                array = [NSArray arrayWithArray:contacts];
                 CFRelease(peopleArrayRef);
             }
             else if (errorRef)
             {
                 error = (__bridge NSError *)errorRef;
             }
-
-            dispatch_async(queue, ^
+            
+            if (error)
             {
-                if (completionBlock)
+                if ([self.delegate respondsToSelector:@selector(addressBook:didFailLoadContacts:)])
                 {
-                    completionBlock(array, error);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate addressBook:self didFailLoadContacts:error];
+                    });
                 }
-            });
-		});
-	});
+            }
+            else
+            {
+                if ([self.delegate respondsToSelector:@selector(addressBook:didLoadContacts:)])
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate addressBook:self didLoadContacts:array];
+                    });
+                }
+            }
+        });
+    });
 }
 
-- (void)startObserveChangesWithCallback:(void (^)())callback
+- (void)startObserveChanges
 {
-    NSParameterAssert(callback);
-    if (callback)
-    {
-        if (!self.changeCallback)
-        {
-            ABAddressBookRegisterExternalChangeCallback(_addressBookRef, APAddressBookExternalChangeCallback, (__bridge void *)(self));
-        }
-        self.changeCallback = callback;
-    }
+    [self stopObserveChanges];
+    
+    ABAddressBookRegisterExternalChangeCallback(_addressBookRef, APAddressBookExternalChangeCallback, (__bridge void *)(self));
 }
 
 - (void)stopObserveChanges
 {
-    if (self.changeCallback)
-    {
-        self.changeCallback = nil;
-        ABAddressBookUnregisterExternalChangeCallback(_addressBookRef, APAddressBookExternalChangeCallback, (__bridge void *)(self));
-    }
+    ABAddressBookUnregisterExternalChangeCallback(_addressBookRef, APAddressBookExternalChangeCallback, (__bridge void *)(self));
 }
 
 #pragma mark - external change callback
@@ -193,7 +184,11 @@ static void APAddressBookExternalChangeCallback(ABAddressBookRef __unused addres
 {
     ABAddressBookRevert(addressBookRef);
     APAddressBook *addressBook = (__bridge APAddressBook *)(context);
-    addressBook.changeCallback ? addressBook.changeCallback() : nil;
+    
+    if ([addressBook.delegate respondsToSelector:@selector(addressBookDidChnage:)])
+    {
+        [addressBook.delegate addressBookDidChnage:addressBook];
+    }
 }
 
 @end

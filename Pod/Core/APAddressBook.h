@@ -13,18 +13,17 @@
 
 @interface APAddressBook : NSObject
 
-@property (nonatomic, weak) id<APAddressBookDelegate> delegate;
+@property (nonatomic, readonly) APAddressBookAccess access;
 @property (nonatomic, assign) APContactField fieldsMask;
 @property (nonatomic, assign) APContactField mergeFieldsMask;
-@property (nonatomic, copy) APContactFilterBlock filterBlock;
-@property (nonatomic, strong) NSArray *sortDescriptors;
+@property (nonatomic, strong) NSArray<NSSortDescriptor *> *sortDescriptors;
+@property (nonatomic, weak) id<APAddressBookDelegate> delegate;
 
 + (APAddressBookAccess)access;
 
-- (void)loadContacts:(void (^)(NSArray *contacts, NSError *error))callbackBlock;
-- (void)loadContactsOnQueue:(dispatch_queue_t)queue completion:(void (^)(NSArray *contacts, NSError *error))completionBlock;
+- (void)loadContacts;
 
-- (void)startObserveChangesWithCallback:(void (^)())callback;
+- (void)startObserveChanges;
 - (void)stopObserveChanges;
 
 @end
@@ -33,6 +32,8 @@
 
 @optional
 - (void)addressBookDidChnage:(APAddressBook *)addressBook;
-- (void)addressBook:(APAddressBook *)addressBook didLoadContacts:(NSArray *)contacts;
+- (void)addressBook:(APAddressBook *)addressBook didLoadContacts:(NSArray<APContact *> *)contacts;
+- (void)addressBook:(APAddressBook *)addressBook didFailLoadContacts:(NSError *)error;
+- (BOOL)addressBook:(APAddressBook *)addressBook shouldAddContact:(APContact *)contact;
 
 @end
