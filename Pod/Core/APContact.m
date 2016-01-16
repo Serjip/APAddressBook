@@ -42,6 +42,10 @@
         {
             _company = [self stringProperty:kABPersonOrganizationProperty fromRecord:recordRef];
         }
+        if (fieldMask & APContactFieldJobTitle)
+        {
+            _jobTitle = [self stringProperty:kABPersonJobTitleProperty fromRecord:recordRef];
+        }
         if (fieldMask & APContactFieldPhones)
         {
             NSMutableArray *phones = [NSMutableArray array];
@@ -152,6 +156,14 @@
         if (! self.company ||! self.company.length)
         {
             _company = [self stringProperty:kABPersonOrganizationProperty fromRecord:recordRef];
+        }
+    }
+    
+    if (fieldMask & APContactFieldJobTitle)
+    {
+        if (! self.jobTitle ||! self.jobTitle.length)
+        {
+            _jobTitle = [self stringProperty:kABPersonJobTitleProperty fromRecord:recordRef];
         }
     }
     
@@ -289,11 +301,10 @@
     [self enumerateMultiValueOfProperty:property fromRecord:recordRef
                               withBlock:^(ABMultiValueRef multiValue, CFIndex index)
     {
-        CFTypeRef value = ABMultiValueCopyValueAtIndex(multiValue, index);
-        NSString *string = (__bridge_transfer NSString *)value;
-        if (string)
+        id value = (__bridge_transfer id)ABMultiValueCopyValueAtIndex(multiValue, index);
+        if (value)
         {
-            [array addObject:string];
+            [array addObject:value];
         }
     }];
     return [NSArray arrayWithArray:array];

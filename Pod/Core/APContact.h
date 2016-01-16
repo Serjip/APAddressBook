@@ -20,6 +20,7 @@
 @property (nonatomic, strong, readonly) NSString *lastName;
 @property (nonatomic, strong, readonly) NSString *compositeName;
 @property (nonatomic, strong, readonly) NSString *company;
+@property (nonatomic, strong, readonly) NSString *jobTitle;
 @property (nonatomic, strong, readonly) NSArray<APPhone *> *phones;
 @property (nonatomic, strong, readonly) NSArray<NSString *> *emails;
 @property (nonatomic, strong, readonly) NSArray<APAddress *> *addresses;
