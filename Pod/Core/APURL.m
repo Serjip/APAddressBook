@@ -7,23 +7,57 @@
 //
 
 #import "APURL.h"
+#import "APLabel_Private.h"
 
 @implementation APURL
 
-- (instancetype)initWithURL:(NSString *)URL label:(NSString *)label
+#pragma mark - Lifecycle
+
+- (instancetype)initWithMultiValue:(ABMultiValueRef)multiValue index:(CFIndex)index
 {
-    self = [super init];
+    self = [super initWithMultiValue:multiValue index:index];
     if(self)
     {
-        _URL = URL;
-        _label = label;
+        _URLString = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(multiValue, index);
     }
     return self;
 }
 
-- (BOOL)isEqualToURLWithLabel:(APURL *)URLWithLabel
+#pragma mark - NSSecureCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    return ([URLWithLabel.URL isEqualToString:self.URL] && [URLWithLabel.label isEqualToString:self.label]);
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        _URLString = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(URLString))];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:_URLString forKey:NSStringFromSelector(@selector(URLString))];
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    APURL *copy = [super copyWithZone:zone];
+    if (copy)
+    {
+        copy->_URLString = [self.URLString copyWithZone:zone];
+    }
+    return copy;
+}
+
+#pragma mark - Equality
+
+- (BOOL)isEqualToURL:(APURL *)URL
+{
+    return ([URL.URLString isEqualToString:self.URLString] && [URL.label isEqualToString:self.label]);
 }
 
 - (BOOL)isEqual:(id)object
@@ -38,12 +72,14 @@
         return NO;
     }
     
-    return [self isEqualToURLWithLabel:object];
+    return [self isEqualToURL:object];
 }
+
+#pragma mark - NSObject
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ (%@)", self.URL, self.label];
+    return [NSString stringWithFormat:@"%@ (%@)", self.URLString, self.label];
 }
 
 @end

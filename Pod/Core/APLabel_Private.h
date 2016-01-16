@@ -1,15 +1,15 @@
 //
-//  APPhone_Private.h
+//  APLabel_Private.h
 //  AddressBook
 //
 //  Created by Sergey P on 16.01.16.
 //  Copyright © 2016 alterplay. All rights reserved.
 //
 
-#import "APPhone.h"
+#import "APLabel.h"
 #import <AddressBook/AddressBook.h>
 
-@interface APPhone ()
+@interface APLabel ()
 
 - (instancetype)initWithMultiValue:(ABMultiValueRef)multiValue index:(CFIndex)index;
 

@@ -6,9 +6,8 @@
 //  Copyright (c) 2014 alterplay. All rights reserved.
 //
 
-#import <AddressBook/AddressBook.h>
 #import "APAddressBook.h"
-#import "APContact.h"
+#import "APContact_Private.h"
 
 @implementation APAddressBook {
 @private

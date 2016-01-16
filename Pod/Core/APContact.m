@@ -6,11 +6,16 @@
 //  Copyright (c) 2014 alterplay. All rights reserved.
 //
 
-#import "APContact.h"
+#import "APContact_Private.h"
+
+#import "APLabel_Private.h"
+
 #import "APAddress.h"
-#import "APURL.h"
 #import "APSocialProfile.h"
-#import "APPhone_Private.h"
+
+#import "APURL.h"
+#import "APPhone.h"
+#import "APEmail.h"
 
 @implementation APContact
 
@@ -48,19 +53,11 @@
         }
         if (fieldMask & APContactFieldPhones)
         {
-            NSMutableArray *phones = [NSMutableArray array];
-            [self enumerateMultiValueOfProperty:kABPersonPhoneProperty fromRecord:recordRef withBlock:^(ABMultiValueRef multiValue, CFIndex index) {
-                APPhone *p = [[APPhone alloc] initWithMultiValue:multiValue index:index];
-                if (p)
-                {
-                    [phones addObject:p];
-                }
-            }];
-            _phones = [NSArray arrayWithArray:phones];
+            _phones = [self arrayObjectsOfClass:[APPhone class] ofProperty:kABPersonPhoneProperty fromRecord:recordRef];
         }
         if (fieldMask & APContactFieldEmails)
         {
-            _emails = [self arrayProperty:kABPersonEmailProperty fromRecord:recordRef];
+            _emails = [self arrayObjectsOfClass:[APEmail class] ofProperty:kABPersonPhoneProperty fromRecord:recordRef];
         }
         if (fieldMask & APContactFieldPhoto)
         {
@@ -111,7 +108,7 @@
         }
         if (fieldMask & APContactFieldURLs)
         {
-            _URLs = [self arrayOfURLsWithLabelsFromRecord:recordRef];
+            _URLs = [self arrayObjectsOfClass:[APURL class] ofProperty:kABPersonURLProperty fromRecord:recordRef];
         }
     }
     return self;
@@ -170,17 +167,9 @@
     if (fieldMask & APContactFieldPhones)
     {
         NSMutableArray *phones = [NSMutableArray arrayWithArray:self.phones];
+        NSArray *phonesToMerge = [self arrayObjectsOfClass:[APPhone class] ofProperty:kABPersonPhoneProperty fromRecord:recordRef];
         
-        NSMutableArray *phoneToMerge = [NSMutableArray array];
-        [self enumerateMultiValueOfProperty:kABPersonPhoneProperty fromRecord:recordRef withBlock:^(ABMultiValueRef multiValue, CFIndex index) {
-            APPhone *p = [[APPhone alloc] initWithMultiValue:multiValue index:index];
-            if (p)
-            {
-                [phoneToMerge addObject:p];
-            }
-        }];
-        
-        for (APPhone *p in phoneToMerge)
+        for (APPhone *p in phonesToMerge)
         {
             if ([self.phones containsObject:p])
             {
@@ -195,9 +184,9 @@
     if (fieldMask & APContactFieldEmails)
     {
         NSMutableArray *emails = [NSMutableArray arrayWithArray:self.emails];
-        NSArray *emailsToMerge = [self arrayProperty:kABPersonEmailProperty fromRecord:recordRef];
+        NSArray *emailsToMerge =  [self arrayObjectsOfClass:[APEmail class] ofProperty:kABPersonEmailProperty fromRecord:recordRef];
         
-        for (NSString *email in emailsToMerge)
+        for (APEmail *email in emailsToMerge)
         {
             if ([self.emails containsObject:email])
             {
@@ -273,21 +262,24 @@
     
     if (fieldMask & APContactFieldURLs)
     {
-        NSMutableArray *URLsWithLabels = [NSMutableArray arrayWithArray:self.URLs];
-        for (APURL *Uwl in [self arrayOfURLsWithLabelsFromRecord:recordRef])
+        NSMutableArray *URLs = [NSMutableArray arrayWithArray:self.URLs];
+        
+        NSArray *URLsToMerge = [self arrayObjectsOfClass:[APURL class] ofProperty:kABPersonURLProperty fromRecord:recordRef];
+        
+        for (APURL *Uwl in URLsToMerge)
         {
             if ([self.URLs containsObject:Uwl])
             {
                 continue;
             }
-            [URLsWithLabels addObject:Uwl];
+            [URLs addObject:Uwl];
         }
         
-        _URLs = URLsWithLabels;
+        _URLs = URLs;
     }
 }
 
-#pragma mark - private
+#pragma mark - Private
 
 - (NSString *)stringProperty:(ABPropertyID)property fromRecord:(ABRecordRef)recordRef
 {
@@ -316,45 +308,12 @@
     return (__bridge_transfer NSDate *)dateRef;
 }
 
-- (NSArray *)arrayOfURLsWithLabelsFromRecord:(ABRecordRef)recordRef
-{
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    [self enumerateMultiValueOfProperty:kABPersonURLProperty fromRecord:recordRef
-                              withBlock:^(ABMultiValueRef multiValue, CFIndex index)
-     {
-         NSString *URL = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(multiValue, index);
-         if (URL)
-         {
-             NSString *label = [self localizedLabelFromMultiValue:multiValue index:index];
-             APURL *URLWithLabel = [[APURL alloc] initWithURL:URL label:label];
-             [array addObject:URLWithLabel];
-         }
-     }];
-    return [NSArray arrayWithArray:array];
-}
-
 - (UIImage *)imagePropertyFullSize:(BOOL)isFullSize fromRecord:(ABRecordRef)recordRef
 {
     ABPersonImageFormat format = isFullSize ? kABPersonImageFormatOriginalSize :
                                  kABPersonImageFormatThumbnail;
     NSData *data = (__bridge_transfer NSData *)ABPersonCopyImageDataWithFormat(recordRef, format);
     return [UIImage imageWithData:data scale:UIScreen.mainScreen.scale];
-}
-
-- (NSString *)localizedLabelFromMultiValue:(ABMultiValueRef)multiValue index:(NSUInteger)index
-{
-    NSString *label;
-    CFTypeRef rawLabel = ABMultiValueCopyLabelAtIndex(multiValue, index);
-    if (rawLabel)
-    {
-        CFStringRef localizedLabel = ABAddressBookCopyLocalizedLabel(rawLabel);
-        if (localizedLabel)
-        {
-            label = (__bridge_transfer NSString *)localizedLabel;
-        }
-        CFRelease(rawLabel);
-    }
-    return label;
 }
 
 - (void)enumerateMultiValueOfProperty:(ABPropertyID)property fromRecord:(ABRecordRef)recordRef
@@ -370,6 +329,19 @@
         }
         CFRelease(multiValue);
     }
+}
+
+- (NSArray *)arrayObjectsOfClass:(Class)class ofProperty:(ABPropertyID)property fromRecord:(ABRecordRef)recordRef
+{
+    NSMutableArray *objects = [NSMutableArray array];
+    [self enumerateMultiValueOfProperty:kABPersonPhoneProperty fromRecord:recordRef withBlock:^(ABMultiValueRef multiValue, CFIndex index) {
+        id obj = [[class alloc] initWithMultiValue:multiValue index:index];
+        if (obj)
+        {
+            [objects addObject:obj];
+        }
+    }];
+    return [NSArray arrayWithArray:objects];
 }
 
 @end

@@ -6,7 +6,8 @@
 //  Copyright (c) 2014 alterplay. All rights reserved.
 //
 
-#import "APPhone_Private.h"
+#import "APPhone.h"
+#import "APLabel_Private.h"
 
 @implementation APPhone
 
@@ -14,18 +15,10 @@
 
 - (instancetype)initWithMultiValue:(ABMultiValueRef)multiValue index:(CFIndex)index
 {
-    self = [super init];
+    self = [super initWithMultiValue:multiValue index:index];
     if(self)
     {
         _phone = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(multiValue, index);
-        
-        CFStringRef label = ABMultiValueCopyLabelAtIndex(multiValue, index);
-        if (label)
-        {
-            _label = (__bridge NSString *)label;
-            _localizedLabel = (__bridge_transfer NSString *)ABAddressBookCopyLocalizedLabel(label);
-            CFRelease(label);
-        }
     }
     return self;
 }
@@ -34,47 +27,37 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     if (self)
     {
         _phone = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(phone))];
-        _label = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(label))];
-        _localizedLabel = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(localizedLabel))];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    [super encodeWithCoder:aCoder];
     [aCoder encodeObject:_phone forKey:NSStringFromSelector(@selector(phone))];
-    [aCoder encodeObject:_label forKey:NSStringFromSelector(@selector(label))];
-    [aCoder encodeObject:_localizedLabel forKey:NSStringFromSelector(@selector(localizedLabel))];
-}
-
-+ (BOOL)supportsSecureCoding
-{
-    return YES;
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    APPhone *copy = [[[self class] alloc] init];
+    APPhone *copy = [super copyWithZone:zone];
     if (copy)
     {
         copy->_phone = [self.phone copyWithZone:zone];
-        copy->_label = [self.label copyWithZone:zone];
-        copy->_localizedLabel = [self.localizedLabel copyWithZone:zone];
     }
     return copy;
 }
 
 #pragma mark - Equality
 
-- (BOOL)isEqualToPhoneWithLabel:(APPhone *)phoneWithLabel
+- (BOOL)isEqualToPhone:(APPhone *)phone
 {
-    return ([phoneWithLabel.phone isEqualToString:self.phone] && [phoneWithLabel.label isEqualToString:self.label]);
+    return ([phone.phone isEqualToString:self.phone] && [phone.label isEqualToString:self.label]);
 }
 
 - (BOOL)isEqual:(id)object
@@ -89,7 +72,7 @@
         return NO;
     }
     
-    return [self isEqualToPhoneWithLabel:object];
+    return [self isEqualToPhone:object];
 }
 
 #pragma mark - NSObject

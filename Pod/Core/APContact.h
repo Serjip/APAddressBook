@@ -7,14 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AddressBook/AddressBook.h>
 #import "APTypes.h"
 
-@class APURL, APPhone, APSocialProfile, APAddress;
+@class APURL, APPhone, APSocialProfile, APAddress, APEmail;
 
 @interface APContact : NSObject
 
-@property (nonatomic, assign, readonly) APContactField fieldMask;
 @property (nonatomic, strong, readonly) NSString *firstName;
 @property (nonatomic, strong, readonly) NSString *middleName;
 @property (nonatomic, strong, readonly) NSString *lastName;
@@ -22,7 +20,7 @@
 @property (nonatomic, strong, readonly) NSString *company;
 @property (nonatomic, strong, readonly) NSString *jobTitle;
 @property (nonatomic, strong, readonly) NSArray<APPhone *> *phones;
-@property (nonatomic, strong, readonly) NSArray<NSString *> *emails;
+@property (nonatomic, strong, readonly) NSArray<APEmail *> *emails;
 @property (nonatomic, strong, readonly) NSArray<APAddress *> *addresses;
 @property (nonatomic, strong, readonly) UIImage *photo;
 @property (nonatomic, strong, readonly) UIImage *thumbnail;
@@ -32,8 +30,5 @@
 @property (nonatomic, strong, readonly) NSArray<APSocialProfile *> *socialProfiles;
 @property (nonatomic, strong, readonly) NSString *note;
 @property (nonatomic, strong, readonly) NSArray<APURL *> *URLs;
-
-- (instancetype)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
-- (void)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask;
 
 @end
