@@ -10,7 +10,7 @@
 
 #import "APLabel_Private.h"
 
-#import "APAddress.h"
+#import "APAddress_Private.h"
 #import "APSocialProfile_Private.h"
 
 #import "APURL.h"

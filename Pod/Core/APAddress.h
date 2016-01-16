@@ -17,6 +17,4 @@
 @property (nonatomic, strong, readonly) NSString *country;
 @property (nonatomic, strong, readonly) NSString *countryCode;
 
-- (instancetype)initWithAddressDictionary:(NSDictionary *)dictionary;
-
 @end

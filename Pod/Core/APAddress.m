@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 alterplay. All rights reserved.
 //
 
+#import "APAddress_Private.h"
 #import <AddressBook/AddressBook.h>
-#import "APAddress.h"
 
 @implementation APAddress
 

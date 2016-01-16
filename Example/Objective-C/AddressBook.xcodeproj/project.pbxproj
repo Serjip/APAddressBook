@@ -45,6 +45,7 @@
 		D2645DE61C4A961E00CF3252 /* APEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APEmail.m; sourceTree = "<group>"; };
 		D2645DE81C4A9FDC00CF3252 /* APContact_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APContact_Private.h; sourceTree = "<group>"; };
 		D2645DE91C4AAA9300CF3252 /* APSocialProfile_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APSocialProfile_Private.h; sourceTree = "<group>"; };
+		D2645DEA1C4AADC800CF3252 /* APAddress_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAddress_Private.h; sourceTree = "<group>"; };
 		FA662818187FE9EF00667C81 /* AddressBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddressBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA66281B187FE9EF00667C81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FA66281D187FE9EF00667C81 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -224,6 +225,7 @@
 			children = (
 				FAB405A2199E5F2000E8E62D /* APAddress.h */,
 				FAB405A3199E5F2000E8E62D /* APAddress.m */,
+				D2645DEA1C4AADC800CF3252 /* APAddress_Private.h */,
 				FAB405A4199E5F2000E8E62D /* APAddressBook.h */,
 				FAB405A5199E5F2000E8E62D /* APAddressBook.m */,
 				FAB405A6199E5F2000E8E62D /* APContact.h */,
