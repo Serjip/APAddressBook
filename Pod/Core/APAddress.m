@@ -11,6 +11,8 @@
 
 @implementation APAddress
 
+#pragma mark - Lifecycle
+
 - (instancetype)initWithAddressDictionary:(NSDictionary *)dictionary
 {
     self = [super init];
@@ -25,6 +27,40 @@
     }
     return self;
 }
+
+#pragma mark - NSSecureCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self)
+    {
+        _street = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(street))];
+        _city = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(city))];
+        _state = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(state))];
+        _zip = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(zip))];
+        _country = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(country))];
+        _countryCode = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(countryCode))];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_street forKey:NSStringFromSelector(@selector(street))];
+    [aCoder encodeObject:_city forKey:NSStringFromSelector(@selector(city))];
+    [aCoder encodeObject:_state forKey:NSStringFromSelector(@selector(state))];
+    [aCoder encodeObject:_zip forKey:NSStringFromSelector(@selector(zip))];
+    [aCoder encodeObject:_country forKey:NSStringFromSelector(@selector(country))];
+    [aCoder encodeObject:_countryCode forKey:NSStringFromSelector(@selector(countryCode))];
+}
+
++ (BOOL)supportsSecureCoding
+{
+    return YES;
+}
+
+#pragma mark - Equality
 
 - (BOOL)isEqualToAddress:(APAddress *)address
 {
