@@ -302,7 +302,11 @@
         _note = [aDecoder decodeObjectOfClass:[NSString class] forKey:NSStringFromSelector(@selector(note))];
         _URLs = [aDecoder decodeObjectOfClass:[NSArray class] forKey:NSStringFromSelector(@selector(URLs))];
         
-#warning Add photo decode
+        NSData *thumbData = [aDecoder decodeObjectOfClass:[NSData class] forKey:NSStringFromSelector(@selector(thumbnail))];
+        _thumbnail = [[UIImage alloc] initWithData:thumbData];
+        
+        NSData *photoData = [aDecoder decodeObjectOfClass:[NSData class] forKey:NSStringFromSelector(@selector(photo))];
+        _photo = [[UIImage alloc] initWithData:photoData];
     }
     return self;
 }
@@ -324,7 +328,9 @@
     [aCoder encodeObject:_socialProfiles forKey:NSStringFromSelector(@selector(socialProfiles))];
     [aCoder encodeObject:_note forKey:NSStringFromSelector(@selector(note))];
     [aCoder encodeObject:_URLs forKey:NSStringFromSelector(@selector(URLs))];
-#warning Add photo encode
+
+    [aCoder encodeObject:UIImagePNGRepresentation(_thumbnail) forKey:NSStringFromSelector(@selector(thumbnail))];
+    [aCoder encodeObject:UIImagePNGRepresentation(_photo) forKey:NSStringFromSelector(@selector(photo))];
 }
 
 + (BOOL)supportsSecureCoding
