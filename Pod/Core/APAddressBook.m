@@ -164,6 +164,21 @@
             }
         });
     });
+    
+    
+#warning Added contact request
+    CNContactStore *store = [[CNContactStore alloc] init];
+    NSArray *keys = @[CNContactIdentifierKey, CNContactGivenNameKey, CNContactMiddleNameKey, CNContactBirthdayKey, CNContactPhoneNumbersKey];
+    CNContactFetchRequest *request = [[CNContactFetchRequest alloc] initWithKeysToFetch:keys];
+    NSError *error = nil;
+    
+    NSMutableArray *array = [NSMutableArray array];
+    [store enumerateContactsWithFetchRequest:request error:&error usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop) {
+        APContact *c2 = [[APContact alloc] initWithContact:contact fieldMask:APContactFieldPhones];
+        [array addObject:c2];
+    }];
+    
+    NSLog(@"%@",array);
 }
 
 - (void)startObserveChanges
