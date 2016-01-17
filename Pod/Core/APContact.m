@@ -84,6 +84,10 @@
         {
             _recordID = [NSNumber numberWithInteger:ABRecordGetRecordID(recordRef)];
         }
+        if (fieldMask & APContactFieldBirthday)
+        {
+            _birthday = [self dateProperty:kABPersonBirthdayProperty fromRecord:recordRef];
+        }
         if (fieldMask & APContactFieldCreationDate)
         {
             _creationDate = [self dateProperty:kABPersonCreationDateProperty fromRecord:recordRef];
@@ -234,6 +238,14 @@
         }
         _addresses = addresses;
     }
+    
+    if (fieldMask & APContactFieldBirthday)
+    {
+        if (! self.birthday)
+        {
+            _birthday = [self dateProperty:kABPersonBirthdayProperty fromRecord:recordRef];
+        }
+    }
 
     if (fieldMask & APContactFieldSocialProfiles)
     {
@@ -355,6 +367,11 @@
 #warning Check the record id
             _recordID = @(contact.identifier.integerValue);
         }
+        if (fieldMask & APContactFieldBirthday)
+        {
+#warning Check the birthday
+            _birthday = [[NSCalendar currentCalendar] dateFromComponents:contact.birthday];
+        }
         if (fieldMask & APContactFieldCreationDate)
         {
 #warning Date
@@ -412,6 +429,7 @@
         _emails = [aDecoder decodeObjectOfClass:[NSArray class] forKey:NSStringFromSelector(@selector(emails))];
         _addresses = [aDecoder decodeObjectOfClass:[NSArray class] forKey:NSStringFromSelector(@selector(addresses))];
         _recordID = [aDecoder decodeObjectOfClass:[NSNumber class] forKey:NSStringFromSelector(@selector(recordID))];
+        _birthday = [aDecoder decodeObjectOfClass:[NSDate class] forKey:NSStringFromSelector(@selector(birthday))];
         _creationDate = [aDecoder decodeObjectOfClass:[NSDate class] forKey:NSStringFromSelector(@selector(creationDate))];
         _modificationDate = [aDecoder decodeObjectOfClass:[NSDate class] forKey:NSStringFromSelector(@selector(modificationDate))];
         _socialProfiles = [aDecoder decodeObjectOfClass:[NSArray class] forKey:NSStringFromSelector(@selector(socialProfiles))];
@@ -439,6 +457,7 @@
     [aCoder encodeObject:_emails forKey:NSStringFromSelector(@selector(emails))];
     [aCoder encodeObject:_addresses forKey:NSStringFromSelector(@selector(addresses))];
     [aCoder encodeObject:_recordID forKey:NSStringFromSelector(@selector(recordID))];
+    [aCoder encodeObject:_birthday forKey:NSStringFromSelector(@selector(birthday))];
     [aCoder encodeObject:_creationDate forKey:NSStringFromSelector(@selector(creationDate))];
     [aCoder encodeObject:_modificationDate forKey:NSStringFromSelector(@selector(modificationDate))];
     [aCoder encodeObject:_socialProfiles forKey:NSStringFromSelector(@selector(socialProfiles))];
@@ -471,6 +490,7 @@
         copy->_emails = [self.emails copyWithZone:zone];
         copy->_addresses = [self.addresses copyWithZone:zone];
         copy->_recordID = [self.recordID copyWithZone:zone];
+        copy->_birthday = [self.birthday copyWithZone:zone];
         copy->_creationDate = [self.creationDate copyWithZone:zone];
         copy->_modificationDate = [self.modificationDate copyWithZone:zone];
         copy->_socialProfiles = [self.socialProfiles copyWithZone:zone];
