@@ -1,25 +1,25 @@
 //
-//  APAddressBook.h
-//  APAddressBook
+//  CKAddressBook.h
+//  ContactsKit
 //
-//  Created by Alexey Belkevich on 1/10/14.
-//  Copyright (c) 2014 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "APTypes.h"
+#import "CKTypes.h"
 
-@protocol APAddressBookDelegate;
+@protocol CKAddressBookDelegate;
 
-@interface APAddressBook : NSObject
+@interface CKAddressBook : NSObject
 
-@property (nonatomic, readonly) APAddressBookAccess access;
-@property (nonatomic, assign) APContactField fieldsMask;
-@property (nonatomic, assign) APContactField mergeFieldsMask;
+@property (nonatomic, readonly) CKAddressBookAccess access;
+@property (nonatomic, assign) CKContactField fieldsMask;
+@property (nonatomic, assign) CKContactField mergeFieldsMask;
 @property (nonatomic, strong) NSArray<NSSortDescriptor *> *sortDescriptors;
-@property (nonatomic, weak) id<APAddressBookDelegate> delegate;
+@property (nonatomic, weak) id<CKAddressBookDelegate> delegate;
 
-+ (APAddressBookAccess)access;
++ (CKAddressBookAccess)access;
 
 - (void)loadContacts;
 
@@ -28,12 +28,12 @@
 
 @end
 
-@protocol APAddressBookDelegate <NSObject>
+@protocol CKAddressBookDelegate <NSObject>
 
 @optional
-- (void)addressBookDidChnage:(APAddressBook *)addressBook;
-- (void)addressBook:(APAddressBook *)addressBook didLoadContacts:(NSArray<APContact *> *)contacts;
-- (void)addressBook:(APAddressBook *)addressBook didFailLoadContacts:(NSError *)error;
-- (BOOL)addressBook:(APAddressBook *)addressBook shouldAddContact:(APContact *)contact;
+- (void)addressBookDidChnage:(CKAddressBook *)addressBook;
+- (void)addressBook:(CKAddressBook *)addressBook didLoadContacts:(NSArray<CKContact *> *)contacts;
+- (void)addressBook:(CKAddressBook *)addressBook didFailLoadContacts:(NSError *)error;
+- (BOOL)addressBook:(CKAddressBook *)addressBook shouldAddContact:(CKContact *)contact;
 
 @end

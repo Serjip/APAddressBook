@@ -1,17 +1,17 @@
 //
-//  APPhone.m
-//  APAddressBook
+//  CKPhone.m
+//  ContactsKit
 //
-//  Created by John Hobbs on 2/7/14.
-//  Copyright (c) 2014 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APPhone.h"
-#import "APLabel_Private.h"
+#import "CKPhone.h"
+#import "CKLabel_Private.h"
 
 #import <Contacts/Contacts.h>
 
-@implementation APPhone
+@implementation CKPhone
 
 #pragma mark - Lifecycle
 
@@ -57,7 +57,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    APPhone *copy = [super copyWithZone:zone];
+    CKPhone *copy = [super copyWithZone:zone];
     if (copy)
     {
         copy->_phone = [self.phone copyWithZone:zone];
@@ -67,7 +67,7 @@
 
 #pragma mark - Equality
 
-- (BOOL)isEqualToPhone:(APPhone *)phone
+- (BOOL)isEqualToPhone:(CKPhone *)phone
 {
     return ([phone.phone isEqualToString:self.phone] && [phone.originalLabel isEqual:self.originalLabel]);
 }
@@ -79,7 +79,7 @@
         return YES;
     }
     
-    if (! [object isKindOfClass:[APPhone class]])
+    if (! [object isKindOfClass:[CKPhone class]])
     {
         return NO;
     }

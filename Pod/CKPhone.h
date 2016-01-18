@@ -1,14 +1,14 @@
 //
-//  APPhone.h
-//  APAddressBook
+//  CKPhone.h
+//  ContactsKit
 //
-//  Created by John Hobbs on 2/7/14.
-//  Copyright (c) 2014 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APLabel.h"
+#import "CKLabel.h"
 
-@interface APPhone : APLabel
+@interface CKPhone : CKLabel
 
 @property (nonatomic, strong, readonly) NSString *phone;
 

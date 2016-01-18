@@ -1,14 +1,14 @@
 //
-//  APEmail.h
-//  AddressBook
+//  CKEmail.h
+//  ContactsKit
 //
-//  Created by Sergey P on 16.01.16.
-//  Copyright © 2016 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APLabel.h"
+#import "CKLabel.h"
 
-@interface APEmail : APLabel
+@interface CKEmail : CKLabel
 
 @property (nonatomic, strong, readonly) NSString *address;
 

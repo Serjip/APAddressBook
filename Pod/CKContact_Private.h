@@ -1,24 +1,24 @@
 //
-//  APContact_Private.h
-//  AddressBook
+//  CKContact_Private.h
+//  ContactsKit
 //
-//  Created by Sergey P on 16.01.16.
-//  Copyright © 2016 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APContact.h"
+#import "CKContact.h"
 #import <AddressBook/AddressBook.h>
 
 @class CNContact;
 
-@interface APContact ()
+@interface CKContact ()
 
-@property (nonatomic, assign, readonly) APContactField fieldMask;
+@property (nonatomic, assign, readonly) CKContactField fieldMask;
 
-- (instancetype)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask NS_DEPRECATED(10_6, 10_10, 6_0, 9_0);
-- (void)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask NS_DEPRECATED(10_6, 10_10, 6_0, 9_0);
+- (instancetype)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(CKContactField)fieldMask NS_DEPRECATED(10_6, 10_10, 6_0, 9_0);
+- (void)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(CKContactField)fieldMask NS_DEPRECATED(10_6, 10_10, 6_0, 9_0);
 
-- (instancetype)initWithContact:(CNContact *)contact fieldMask:(APContactField)fieldMask NS_AVAILABLE(10_10, 9_0);
-- (void)mergeLinkedContact:(CNContact *)contact fieldMask:(APContactField)fieldMask NS_AVAILABLE(10_10, 9_0);
+- (instancetype)initWithContact:(CNContact *)contact fieldMask:(CKContactField)fieldMask NS_AVAILABLE(10_10, 9_0);
+- (void)mergeLinkedContact:(CNContact *)contact fieldMask:(CKContactField)fieldMask NS_AVAILABLE(10_10, 9_0);
 
 @end

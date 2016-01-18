@@ -1,16 +1,16 @@
 //
-//  APAddressBook.m
-//  APAddressBook
+//  CKAddressBook.m
+//  ContactsKit
 //
-//  Created by Alexey Belkevich on 1/10/14.
-//  Copyright (c) 2014 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APAddressBook.h"
+#import "CKAddressBook.h"
 #import <Contacts/Contacts.h>
-#import "APContact_Private.h"
+#import "CKContact_Private.h"
 
-@implementation APAddressBook {
+@implementation CKAddressBook {
 @private
     ABAddressBookRef _addressBookRef;
     dispatch_queue_t _addressBookQueue;
@@ -18,9 +18,9 @@
 
 #pragma mark - Properties
 
-- (APAddressBookAccess)access
+- (CKAddressBookAccess)access
 {
-    return [APAddressBook access];
+    return [CKAddressBook access];
 }
 
 #pragma mark - Lifecycle
@@ -39,7 +39,7 @@
         }
         NSString *name = [NSString stringWithFormat:@"com.alterplay.addressbook.%ld", (long)self.hash];
         _addressBookQueue = dispatch_queue_create([name cStringUsingEncoding:NSUTF8StringEncoding], NULL);
-        self.fieldsMask = APContactFieldDefault;
+        self.fieldsMask = CKContactFieldDefault;
     }
     return self;
 }
@@ -58,27 +58,27 @@
 
 #pragma mark - Public
 
-+ (APAddressBookAccess)access
++ (CKAddressBookAccess)access
 {
     ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
     switch (status)
     {
         case kABAuthorizationStatusDenied:
         case kABAuthorizationStatusRestricted:
-            return APAddressBookAccessDenied;
+            return CKAddressBookAccessDenied;
 
         case kABAuthorizationStatusAuthorized:
-            return APAddressBookAccessGranted;
+            return CKAddressBookAccessGranted;
 
         default:
-            return APAddressBookAccessUnknown;
+            return CKAddressBookAccessUnknown;
     }
 }
 
 - (void)loadContacts
 {
-    APContactField fieldMask = self.fieldsMask;
-    APContactField mergeFieldMask = self.mergeFieldsMask;
+    CKContactField fieldMask = self.fieldsMask;
+    CKContactField mergeFieldMask = self.mergeFieldsMask;
     NSArray *descriptors = [self.sortDescriptors copy];
     
     ABAddressBookRequestAccessWithCompletion(_addressBookRef, ^(bool granted, CFErrorRef errorRef) {
@@ -103,7 +103,7 @@
                         continue;
                     }
                     
-                    APContact *contact = [[APContact alloc] initWithRecordRef:recordRef fieldMask:fieldMask];
+                    CKContact *contact = [[CKContact alloc] initWithRecordRef:recordRef fieldMask:fieldMask];
                     if (! [self.delegate respondsToSelector:@selector(addressBook:shouldAddContact:)] || [self.delegate addressBook:self shouldAddContact:contact])
                     {
                         [contacts addObject:contact];
@@ -174,7 +174,7 @@
     
     NSMutableArray *array = [NSMutableArray array];
     [store enumerateContactsWithFetchRequest:request error:&error usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop) {
-        APContact *c2 = [[APContact alloc] initWithContact:contact fieldMask:APContactFieldPhones];
+        CKContact *c2 = [[CKContact alloc] initWithContact:contact fieldMask:CKContactFieldPhones];
         [array addObject:c2];
     }];
     
@@ -185,20 +185,20 @@
 {
     [self stopObserveChanges];
     
-    ABAddressBookRegisterExternalChangeCallback(_addressBookRef, APAddressBookExternalChangeCallback, (__bridge void *)(self));
+    ABAddressBookRegisterExternalChangeCallback(_addressBookRef, CKAddressBookExternalChangeCallback, (__bridge void *)(self));
 }
 
 - (void)stopObserveChanges
 {
-    ABAddressBookUnregisterExternalChangeCallback(_addressBookRef, APAddressBookExternalChangeCallback, (__bridge void *)(self));
+    ABAddressBookUnregisterExternalChangeCallback(_addressBookRef, CKAddressBookExternalChangeCallback, (__bridge void *)(self));
 }
 
 #pragma mark - external change callback
 
-static void APAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDictionaryRef __unused info, void *context)
+static void CKAddressBookExternalChangeCallback(ABAddressBookRef addressBookRef, CFDictionaryRef __unused info, void *context)
 {
     ABAddressBookRevert(addressBookRef);
-    APAddressBook *addressBook = (__bridge APAddressBook *)(context);
+    CKAddressBook *addressBook = (__bridge CKAddressBook *)(context);
     
     if ([addressBook.delegate respondsToSelector:@selector(addressBookDidChnage:)])
     {

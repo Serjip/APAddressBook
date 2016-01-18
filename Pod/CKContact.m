@@ -1,128 +1,128 @@
 //
-//  APContact.m
-//  APAddressBook
+//  CKContact.m
+//  ContactsKit
 //
-//  Created by Alexey Belkevich on 1/10/14.
-//  Copyright (c) 2014 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APContact_Private.h"
+#import "CKContact_Private.h"
 
-#import "APLabel_Private.h"
+#import "CKLabel_Private.h"
 
-#import "APAddress_Private.h"
-#import "APSocialProfile_Private.h"
+#import "CKAddress_Private.h"
+#import "CKSocialProfile_Private.h"
 
-#import "APURL.h"
-#import "APPhone.h"
-#import "APEmail.h"
+#import "CKURL.h"
+#import "CKPhone.h"
+#import "CKEmail.h"
 
 #import <Contacts/CNContact.h>
 
-@implementation APContact
+@implementation CKContact
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask
+- (instancetype)initWithRecordRef:(ABRecordRef)recordRef fieldMask:(CKContactField)fieldMask
 {
     self = [super init];
     if (self)
     {
         _fieldMask = fieldMask;
-        if (fieldMask & APContactFieldFirstName)
+        if (fieldMask & CKContactFieldFirstName)
         {
             _firstName = [self stringProperty:kABPersonFirstNameProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldMiddleName)
+        if (fieldMask & CKContactFieldMiddleName)
         {
             _middleName = [self stringProperty:kABPersonMiddleNameProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldLastName)
+        if (fieldMask & CKContactFieldLastName)
         {
             _lastName = [self stringProperty:kABPersonLastNameProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldCompositeName)
+        if (fieldMask & CKContactFieldCompositeName)
         {
             _compositeName = (__bridge_transfer NSString *)ABRecordCopyCompositeName(recordRef);
         }
-        if (fieldMask & APContactFieldCompany)
+        if (fieldMask & CKContactFieldCompany)
         {
             _company = [self stringProperty:kABPersonOrganizationProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldJobTitle)
+        if (fieldMask & CKContactFieldJobTitle)
         {
             _jobTitle = [self stringProperty:kABPersonJobTitleProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldPhones)
+        if (fieldMask & CKContactFieldPhones)
         {
-            _phones = [self arrayObjectsOfClass:[APPhone class] ofProperty:kABPersonPhoneProperty fromRecord:recordRef];
+            _phones = [self arrayObjectsOfClass:[CKPhone class] ofProperty:kABPersonPhoneProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldEmails)
+        if (fieldMask & CKContactFieldEmails)
         {
-            _emails = [self arrayObjectsOfClass:[APEmail class] ofProperty:kABPersonPhoneProperty fromRecord:recordRef];
+            _emails = [self arrayObjectsOfClass:[CKEmail class] ofProperty:kABPersonPhoneProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldPhoto)
+        if (fieldMask & CKContactFieldPhoto)
         {
             _photo = [self imagePropertyFullSize:YES fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldThumbnail)
+        if (fieldMask & CKContactFieldThumbnail)
         {
             _thumbnail = [self imagePropertyFullSize:NO fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldAddresses)
+        if (fieldMask & CKContactFieldAddresses)
         {
             NSMutableArray *addresses = [[NSMutableArray alloc] init];
             NSArray *array = [self arrayProperty:kABPersonAddressProperty fromRecord:recordRef];
             for (NSDictionary *dictionary in array)
             {
-                APAddress *address = [[APAddress alloc] initWithAddressDictionary:dictionary];
+                CKAddress *address = [[CKAddress alloc] initWithAddressDictionary:dictionary];
                 [addresses addObject:address];
             }
             _addresses = addresses;
         }
-        if (fieldMask & APContactFieldRecordID)
+        if (fieldMask & CKContactFieldRecordID)
         {
             _recordID = [NSNumber numberWithInteger:ABRecordGetRecordID(recordRef)];
         }
-        if (fieldMask & APContactFieldBirthday)
+        if (fieldMask & CKContactFieldBirthday)
         {
             _birthday = [self dateProperty:kABPersonBirthdayProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldCreationDate)
+        if (fieldMask & CKContactFieldCreationDate)
         {
             _creationDate = [self dateProperty:kABPersonCreationDateProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldModificationDate)
+        if (fieldMask & CKContactFieldModificationDate)
         {
             _modificationDate = [self dateProperty:kABPersonModificationDateProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldSocialProfiles)
+        if (fieldMask & CKContactFieldSocialProfiles)
         {
             NSMutableArray *profiles = [[NSMutableArray alloc] init];
             NSArray *array = [self arrayProperty:kABPersonSocialProfileProperty fromRecord:recordRef];
             for (NSDictionary *dictionary in array)
             {
-                APSocialProfile *profile = [[APSocialProfile alloc] initWithSocialDictionary:dictionary];
+                CKSocialProfile *profile = [[CKSocialProfile alloc] initWithSocialDictionary:dictionary];
                 [profiles addObject:profile];
             }
             
             _socialProfiles = profiles;
         }
-        if (fieldMask & APContactFieldNote)
+        if (fieldMask & CKContactFieldNote)
         {
             _note = [self stringProperty:kABPersonNoteProperty fromRecord:recordRef];
         }
-        if (fieldMask & APContactFieldURLs)
+        if (fieldMask & CKContactFieldURLs)
         {
-            _URLs = [self arrayObjectsOfClass:[APURL class] ofProperty:kABPersonURLProperty fromRecord:recordRef];
+            _URLs = [self arrayObjectsOfClass:[CKURL class] ofProperty:kABPersonURLProperty fromRecord:recordRef];
         }
     }
     return self;
 }
 
-- (void)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(APContactField)fieldMask
+- (void)mergeLinkedRecordRef:(ABRecordRef)recordRef fieldMask:(CKContactField)fieldMask
 {
-    if (fieldMask & APContactFieldFirstName)
+    if (fieldMask & CKContactFieldFirstName)
     {
         if (! self.firstName)
         {
@@ -130,7 +130,7 @@
         }
     }
     
-    if (fieldMask & APContactFieldMiddleName)
+    if (fieldMask & CKContactFieldMiddleName)
     {
         if (! self.middleName)
         {
@@ -138,7 +138,7 @@
         }
     }
     
-    if (fieldMask & APContactFieldLastName)
+    if (fieldMask & CKContactFieldLastName)
     {
         if (! self.lastName)
         {
@@ -146,7 +146,7 @@
         }
     }
     
-    if (fieldMask & APContactFieldCompositeName)
+    if (fieldMask & CKContactFieldCompositeName)
     {
         if (! self.compositeName)
         {
@@ -154,7 +154,7 @@
         }
     }
     
-    if (fieldMask & APContactFieldCompany)
+    if (fieldMask & CKContactFieldCompany)
     {
         if (! self.company ||! self.company.length)
         {
@@ -162,7 +162,7 @@
         }
     }
     
-    if (fieldMask & APContactFieldJobTitle)
+    if (fieldMask & CKContactFieldJobTitle)
     {
         if (! self.jobTitle ||! self.jobTitle.length)
         {
@@ -170,12 +170,12 @@
         }
     }
     
-    if (fieldMask & APContactFieldPhones)
+    if (fieldMask & CKContactFieldPhones)
     {
         NSMutableArray *phones = [NSMutableArray arrayWithArray:self.phones];
-        NSArray *phonesToMerge = [self arrayObjectsOfClass:[APPhone class] ofProperty:kABPersonPhoneProperty fromRecord:recordRef];
+        NSArray *phonesToMerge = [self arrayObjectsOfClass:[CKPhone class] ofProperty:kABPersonPhoneProperty fromRecord:recordRef];
         
-        for (APPhone *p in phonesToMerge)
+        for (CKPhone *p in phonesToMerge)
         {
             if ([self.phones containsObject:p])
             {
@@ -187,12 +187,12 @@
         _phones = phones;
     }
     
-    if (fieldMask & APContactFieldEmails)
+    if (fieldMask & CKContactFieldEmails)
     {
         NSMutableArray *emails = [NSMutableArray arrayWithArray:self.emails];
-        NSArray *emailsToMerge =  [self arrayObjectsOfClass:[APEmail class] ofProperty:kABPersonEmailProperty fromRecord:recordRef];
+        NSArray *emailsToMerge =  [self arrayObjectsOfClass:[CKEmail class] ofProperty:kABPersonEmailProperty fromRecord:recordRef];
         
-        for (APEmail *email in emailsToMerge)
+        for (CKEmail *email in emailsToMerge)
         {
             if ([self.emails containsObject:email])
             {
@@ -205,7 +205,7 @@
         _emails = emails;
     }
 
-    if (fieldMask & APContactFieldPhoto)
+    if (fieldMask & CKContactFieldPhoto)
     {
         if (! self.photo)
         {
@@ -213,7 +213,7 @@
         }
     }
     
-    if (fieldMask & APContactFieldThumbnail)
+    if (fieldMask & CKContactFieldThumbnail)
     {
         if (! self.thumbnail)
         {
@@ -221,13 +221,13 @@
         }
     }
     
-    if (fieldMask & APContactFieldAddresses)
+    if (fieldMask & CKContactFieldAddresses)
     {
         NSMutableArray *addresses = [NSMutableArray arrayWithArray:self.addresses];
         NSArray *array = [self arrayProperty:kABPersonAddressProperty fromRecord:recordRef];
         for (NSDictionary *dictionary in array)
         {
-            APAddress *address = [[APAddress alloc] initWithAddressDictionary:dictionary];
+            CKAddress *address = [[CKAddress alloc] initWithAddressDictionary:dictionary];
             
             if ([self.addresses containsObject:address])
             {
@@ -239,7 +239,7 @@
         _addresses = addresses;
     }
     
-    if (fieldMask & APContactFieldBirthday)
+    if (fieldMask & CKContactFieldBirthday)
     {
         if (! self.birthday)
         {
@@ -247,13 +247,13 @@
         }
     }
 
-    if (fieldMask & APContactFieldSocialProfiles)
+    if (fieldMask & CKContactFieldSocialProfiles)
     {
         NSMutableArray *profiles = [NSMutableArray arrayWithArray:self.socialProfiles];
         NSArray *array = [self arrayProperty:kABPersonSocialProfileProperty fromRecord:recordRef];
         for (NSDictionary *dictionary in array)
         {
-            APSocialProfile *profile = [[APSocialProfile alloc] initWithSocialDictionary:dictionary];
+            CKSocialProfile *profile = [[CKSocialProfile alloc] initWithSocialDictionary:dictionary];
             
             if ([self.socialProfiles containsObject:profile])
             {
@@ -266,7 +266,7 @@
         _socialProfiles = profiles;
     }
 
-    if (fieldMask & APContactFieldNote)
+    if (fieldMask & CKContactFieldNote)
     {
         if (! self.note || ! self.note.length)
         {
@@ -274,13 +274,13 @@
         }
     }
     
-    if (fieldMask & APContactFieldURLs)
+    if (fieldMask & CKContactFieldURLs)
     {
         NSMutableArray *URLs = [NSMutableArray arrayWithArray:self.URLs];
         
-        NSArray *URLsToMerge = [self arrayObjectsOfClass:[APURL class] ofProperty:kABPersonURLProperty fromRecord:recordRef];
+        NSArray *URLsToMerge = [self arrayObjectsOfClass:[CKURL class] ofProperty:kABPersonURLProperty fromRecord:recordRef];
         
-        for (APURL *Uwl in URLsToMerge)
+        for (CKURL *Uwl in URLsToMerge)
         {
             if ([self.URLs containsObject:Uwl])
             {
@@ -294,112 +294,112 @@
 }
 
 
-- (instancetype)initWithContact:(CNContact *)contact fieldMask:(APContactField)fieldMask
+- (instancetype)initWithContact:(CNContact *)contact fieldMask:(CKContactField)fieldMask
 {
     self = [super init];
     if (self)
     {
         _fieldMask = fieldMask;
         
-        if (fieldMask & APContactFieldFirstName)
+        if (fieldMask & CKContactFieldFirstName)
         {
             _firstName = contact.givenName;
         }
-        if (fieldMask & APContactFieldMiddleName)
+        if (fieldMask & CKContactFieldMiddleName)
         {
             _middleName = contact.middleName;
         }
-        if (fieldMask & APContactFieldLastName)
+        if (fieldMask & CKContactFieldLastName)
         {
             _lastName = contact.familyName;
         }
-        if (fieldMask & APContactFieldCompositeName)
+        if (fieldMask & CKContactFieldCompositeName)
         {
 #warning Composite name
             _compositeName = contact.givenName;
         }
-        if (fieldMask & APContactFieldCompany)
+        if (fieldMask & CKContactFieldCompany)
         {
             _company = contact.organizationName;
         }
-        if (fieldMask & APContactFieldJobTitle)
+        if (fieldMask & CKContactFieldJobTitle)
         {
             _jobTitle = contact.jobTitle;
         }
-        if (fieldMask & APContactFieldPhones)
+        if (fieldMask & CKContactFieldPhones)
         {
             NSMutableArray *phones = [[NSMutableArray alloc] initWithCapacity:contact.phoneNumbers.count];
             for (CNPhoneNumber *phoneNumber in contact.phoneNumbers)
             {
-                [phones addObject:[[APPhone alloc] initWithLabledValue:phoneNumber]];
+                [phones addObject:[[CKPhone alloc] initWithLabledValue:phoneNumber]];
             }
             _phones = phones;
         }
-        if (fieldMask & APContactFieldEmails)
+        if (fieldMask & CKContactFieldEmails)
         {
             NSMutableArray *emails = [[NSMutableArray alloc] initWithCapacity:contact.emailAddresses.count];
             for (CNLabeledValue *email in contact.emailAddresses)
             {
 #warning Emails
-                [emails addObject:[[APEmail alloc] initWithLabledValue:email]];
+                [emails addObject:[[CKEmail alloc] initWithLabledValue:email]];
             }
             _emails = emails;
         }
-        if (fieldMask & APContactFieldPhoto)
+        if (fieldMask & CKContactFieldPhoto)
         {
             _photo = [UIImage imageWithData:contact.imageData scale:[UIScreen mainScreen].scale];
         }
-        if (fieldMask & APContactFieldThumbnail)
+        if (fieldMask & CKContactFieldThumbnail)
         {
             _thumbnail = [UIImage imageWithData:contact.thumbnailImageData scale:[UIScreen mainScreen].scale];
         }
-        if (fieldMask & APContactFieldAddresses)
+        if (fieldMask & CKContactFieldAddresses)
         {
             NSMutableArray *addresses = [[NSMutableArray alloc] initWithCapacity:contact.postalAddresses.count];
             for (CNPostalAddress *addr in contact.postalAddresses)
             {
-                [addresses addObject:[[APAddress alloc] initWithPostalAddress:addr]];
+                [addresses addObject:[[CKAddress alloc] initWithPostalAddress:addr]];
             }
             _addresses = addresses;
         }
-        if (fieldMask & APContactFieldRecordID)
+        if (fieldMask & CKContactFieldRecordID)
         {
 #warning Check the record id
             _recordID = @(contact.identifier.integerValue);
         }
-        if (fieldMask & APContactFieldBirthday)
+        if (fieldMask & CKContactFieldBirthday)
         {
 #warning Check the birthday
             _birthday = [[NSCalendar currentCalendar] dateFromComponents:contact.birthday];
         }
-        if (fieldMask & APContactFieldCreationDate)
+        if (fieldMask & CKContactFieldCreationDate)
         {
 #warning Date
         }
-        if (fieldMask & APContactFieldModificationDate)
+        if (fieldMask & CKContactFieldModificationDate)
         {
 #warning Date
         }
-        if (fieldMask & APContactFieldSocialProfiles)
+        if (fieldMask & CKContactFieldSocialProfiles)
         {
             NSMutableArray *profiles = [[NSMutableArray alloc] init];
             for (CNSocialProfile *profile in contact.socialProfiles)
             {
-                [profiles addObject:[[APSocialProfile alloc] initWithSocialProfile:profile]];
+                [profiles addObject:[[CKSocialProfile alloc] initWithSocialProfile:profile]];
             }
             _socialProfiles = profiles;
         }
-        if (fieldMask & APContactFieldNote)
+        if (fieldMask & CKContactFieldNote)
         {
             _note = contact.note;
         }
-        if (fieldMask & APContactFieldURLs)
+        if (fieldMask & CKContactFieldURLs)
         {
             NSMutableArray *URLs = [[NSMutableArray alloc] initWithCapacity:contact.urlAddresses.count];
             for (CNLabeledValue *url in contact.postalAddresses)
             {
 #warning URLs
-                [URLs addObject:[[APURL alloc] initWithLabledValue:url]];
+                [URLs addObject:[[CKURL alloc] initWithLabledValue:url]];
             }
             _URLs = URLs;
         }
@@ -407,7 +407,7 @@
     return self;
 }
 
-- (void)mergeLinkedContact:(CNContact *)contact fieldMask:(APContactField)fieldMask
+- (void)mergeLinkedContact:(CNContact *)contact fieldMask:(CKContactField)fieldMask
 {
 #warning Merge it
 }
@@ -477,7 +477,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    APContact *copy = [[[self class] alloc] init];
+    CKContact *copy = [[[self class] alloc] init];
     if (copy)
     {
         copy->_firstName = [self.firstName copyWithZone:zone];

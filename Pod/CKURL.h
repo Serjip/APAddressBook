@@ -1,14 +1,14 @@
 //
-//  APURL.h
-//  AddressBook
+//  CKURL.h
+//  ContactsKit
 //
-//  Created by Sergey Popov on 24.08.15.
-//  Copyright (c) 2015 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APLabel.h"
+#import "CKLabel.h"
 
-@interface APURL : APLabel
+@interface CKURL : CKLabel
 
 @property (nonatomic, strong, readonly) NSString *URLString;
 

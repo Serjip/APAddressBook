@@ -1,16 +1,16 @@
 //
-//  APAddress.m
-//  AddressBook
+//  CKAddress.m
+//  ContactsKit
 //
-//  Created by Alexey Belkevich on 4/19/14.
-//  Copyright (c) 2014 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APAddress_Private.h"
+#import "CKAddress_Private.h"
 #import <AddressBook/AddressBook.h>
 #import <Contacts/CNPostalAddress.h>
 
-@implementation APAddress
+@implementation CKAddress
 
 #pragma mark - Lifecycle
 
@@ -80,7 +80,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    APAddress *copy = [[[self class] alloc] init];
+    CKAddress *copy = [[[self class] alloc] init];
     if (copy)
     {
         copy->_street = [self.street copyWithZone:zone];
@@ -95,7 +95,7 @@
 
 #pragma mark - Equality
 
-- (BOOL)isEqualToAddress:(APAddress *)address
+- (BOOL)isEqualToAddress:(CKAddress *)address
 {
     if (! [self.street isEqualToString:address.street])
     {
@@ -132,7 +132,7 @@
         return YES;
     }
     
-    if (! [object isKindOfClass:[APAddress class]])
+    if (! [object isKindOfClass:[CKAddress class]])
     {
         return NO;
     }

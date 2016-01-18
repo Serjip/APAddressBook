@@ -1,17 +1,17 @@
 //
-//  APURL.m
-//  AddressBook
+//  CKURL.m
+//  ContactsKit
 //
-//  Created by Sergey Popov on 24.08.15.
-//  Copyright (c) 2015 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APURL.h"
-#import "APLabel_Private.h"
+#import "CKURL.h"
+#import "CKLabel_Private.h"
 
 #import <Contacts/Contacts.h>
 
-@implementation APURL
+@implementation CKURL
 
 #pragma mark - Lifecycle
 
@@ -57,7 +57,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    APURL *copy = [super copyWithZone:zone];
+    CKURL *copy = [super copyWithZone:zone];
     if (copy)
     {
         copy->_URLString = [self.URLString copyWithZone:zone];
@@ -67,7 +67,7 @@
 
 #pragma mark - Equality
 
-- (BOOL)isEqualToURL:(APURL *)URL
+- (BOOL)isEqualToURL:(CKURL *)URL
 {
     return ([URL.URLString isEqualToString:self.URLString] && [URL.originalLabel isEqualToString:self.originalLabel]);
 }
@@ -79,7 +79,7 @@
         return YES;
     }
     
-    if (! [object isKindOfClass:[APURL class]])
+    if (! [object isKindOfClass:[CKURL class]])
     {
         return NO;
     }

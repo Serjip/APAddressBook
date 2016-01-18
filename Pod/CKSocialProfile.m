@@ -1,16 +1,16 @@
 //
-//  APSocialContact.m
-//  SyncBook
+//  CKSocialContact.m
+//  ContactsKit
 //
-//  Created by David on 2014-08-01.
-//  Copyright (c) 2014 David Muzi. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APSocialProfile_Private.h"
+#import "CKSocialProfile_Private.h"
 #import <AddressBook/AddressBook.h>
 #import <Contacts/CNSocialProfile.h>
 
-@implementation APSocialProfile
+@implementation CKSocialProfile
 
 #pragma mark - Lifecycle
 
@@ -81,7 +81,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    APSocialProfile *copy = [[[self class] alloc] init];
+    CKSocialProfile *copy = [[[self class] alloc] init];
     if (copy)
     {
         copy->_URL = [self.URL copyWithZone:zone];
@@ -95,7 +95,7 @@
 
 #pragma mark - Equality
 
-- (BOOL)isEqualToSocialProfile:(APSocialProfile *)socialProfile
+- (BOOL)isEqualToSocialProfile:(CKSocialProfile *)socialProfile
 {
     if (self.serviceType != socialProfile.serviceType)
     {
@@ -132,7 +132,7 @@
         return YES;
     }
     
-    if (! [object isKindOfClass:[APSocialProfile class]])
+    if (! [object isKindOfClass:[CKSocialProfile class]])
     {
         return NO;
     }
@@ -142,31 +142,31 @@
 
 #pragma mark - Private
 
-- (APSocialProfileService)socialNetworkTypeFromString:(NSString *)string
+- (CKSocialProfileService)socialNetworkTypeFromString:(NSString *)string
 {
     if ([string isEqualToString:@"facebook"])
     {
-        return APSocialProfileServiceFacebook;
+        return CKSocialProfileServiceFacebook;
     }
     else if ([string isEqualToString:@"twitter"])
     {
-        return APSocialProfileServiceTwitter;
+        return CKSocialProfileServiceTwitter;
     }
     else if ([string isEqualToString:@"linkedin"])
     {
-        return APSocialProfileServiceLinkedIn;
+        return CKSocialProfileServiceLinkedIn;
     }
     else if ([string isEqualToString:@"flickr"])
     {
-        return APSocialProfileServiceFlickr;
+        return CKSocialProfileServiceFlickr;
     }
     else if ([string isEqualToString:@"myspace"])
     {
-        return APSocialProfileServiceMyspace;
+        return CKSocialProfileServiceMyspace;
     }
     else
     {
-        return APSocialProfileServiceUnknown;
+        return CKSocialProfileServiceUnknown;
     }
 }
 

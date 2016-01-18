@@ -1,16 +1,16 @@
 //
-//  APAddress_Private.h
-//  AddressBook
+//  CKAddress_Private.h
+//  ContactsKit
 //
-//  Created by Sergey P on 16.01.16.
-//  Copyright © 2016 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APAddress.h"
+#import "CKAddress.h"
 
 @class CNPostalAddress;
 
-@interface APAddress ()
+@interface CKAddress ()
 
 - (instancetype)initWithAddressDictionary:(NSDictionary *)dictionary NS_DEPRECATED(10_6, 10_10, 6_0, 9_0);
 - (instancetype)initWithPostalAddress:(CNPostalAddress *)address NS_AVAILABLE(10_10, 9_0);

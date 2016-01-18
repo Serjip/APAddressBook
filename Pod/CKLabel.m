@@ -1,15 +1,15 @@
 //
-//  APLabel.m
-//  AddressBook
+//  CKLabel.m
+//  ContactsKit
 //
-//  Created by Sergey P on 16.01.16.
-//  Copyright © 2016 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APLabel_Private.h"
+#import "CKLabel_Private.h"
 #import <Contacts/CNLabeledValue.h>
 
-@implementation APLabel
+@implementation CKLabel
 
 #pragma mark - Lifecycle
 
@@ -68,7 +68,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    APLabel *copy = [[[self class] alloc] init];
+    CKLabel *copy = [[[self class] alloc] init];
     if (copy)
     {
         copy->_originalLabel = [self.originalLabel copyWithZone:zone];
@@ -79,7 +79,7 @@
 
 #pragma mark - Equal
 
-- (BOOL)isEqualToLabel:(APLabel *)label
+- (BOOL)isEqualToLabel:(CKLabel *)label
 {
     return [label.originalLabel isEqualToString:self.originalLabel];
 }
@@ -91,7 +91,7 @@
         return YES;
     }
     
-    if (! [object isKindOfClass:[APLabel class]])
+    if (! [object isKindOfClass:[CKLabel class]])
     {
         return NO;
     }

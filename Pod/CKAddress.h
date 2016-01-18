@@ -1,14 +1,14 @@
 //
-//  APAddress.h
-//  AddressBook
+//  CKAddress.h
+//  ContactsKit
 //
-//  Created by Alexey Belkevich on 4/19/14.
-//  Copyright (c) 2014 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface APAddress : NSObject <NSCopying, NSSecureCoding>
+@interface CKAddress : NSObject <NSCopying, NSSecureCoding>
 
 @property (nonatomic, strong, readonly) NSString *street;
 @property (nonatomic, strong, readonly) NSString *city;

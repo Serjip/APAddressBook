@@ -1,16 +1,16 @@
 //
-//  APEmail.m
-//  AddressBook
+//  CKEmail.m
+//  ContactsKit
 //
-//  Created by Sergey P on 16.01.16.
-//  Copyright © 2016 alterplay. All rights reserved.
+//  Created by Sergey Popov on 1/18/16.
+//  Copyright (c) 2016 ttitt. All rights reserved.
 //
 
-#import "APEmail.h"
-#import "APLabel_Private.h"
+#import "CKEmail.h"
+#import "CKLabel_Private.h"
 #import <Contacts/Contacts.h>
 
-@implementation APEmail
+@implementation CKEmail
 
 #pragma mark - Lifecycle
 
@@ -56,7 +56,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    APEmail *copy = [super copyWithZone:zone];
+    CKEmail *copy = [super copyWithZone:zone];
     if (copy)
     {
         copy->_address = [self.address copyWithZone:zone];
@@ -66,7 +66,7 @@
 
 #pragma mark - Equality
 
-- (BOOL)isEqualToAddress:(APEmail *)email
+- (BOOL)isEqualToAddress:(CKEmail *)email
 {
     return ([email.address isEqualToString:self.address] && [email.originalLabel isEqualToString:self.originalLabel]);
 }
@@ -78,7 +78,7 @@
         return YES;
     }
     
-    if (! [object isKindOfClass:[APEmail class]])
+    if (! [object isKindOfClass:[CKEmail class]])
     {
         return NO;
     }
